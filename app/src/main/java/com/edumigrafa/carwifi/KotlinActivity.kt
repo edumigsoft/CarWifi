@@ -2,6 +2,7 @@ package com.edumigrafa.carwifi
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.KeyEvent
 import com.github.kittinunf.fuel.Fuel
 import kotlinx.android.synthetic.main.activity_kotlin.*
 
@@ -12,6 +13,32 @@ class KotlinActivity : Activity() {
         setContentView(R.layout.activity_kotlin)
 
 
+        led1.setOnTouchListener{ view, motionEvent ->
+            when (motionEvent.action) {
+                KeyEvent.ACTION_DOWN -> {
+                    action("L1", "1")
+                }
+                KeyEvent.ACTION_UP -> {
+                    action("L1", "0")
+                }
+            }
+
+            true
+        }
+
+        led2.setOnTouchListener{ view, motionEvent ->
+            when (motionEvent.action) {
+                KeyEvent.ACTION_DOWN -> {
+                    action("L2", "1")
+                }
+                KeyEvent.ACTION_UP -> {
+                    action("L2", "0")
+                }
+            }
+
+            true
+        }
+
         switch1.setOnClickListener {
 
             var led: String = if (switch1.isChecked) "1" else "0"
@@ -19,12 +46,18 @@ class KotlinActivity : Activity() {
             Fuel.get("http://10.0.1.1/L1" + led).response { request, response, result ->
                 println(request)
                 println(response)
+                println(result)
                 val (bytes, error) = result
                 if (bytes != null) {
                     println(bytes)
                 }
 
-                text.setText("Result = " + result.toString() + "\r" + "Response.Body = " + request.httpBody.toString())
+                //text.setText("Result = " + result.success
+                        //+ "\n"
+                        //+ "Response = " + response.httpResponseMessage.toString()
+                        //+ "\n"
+                        //+ "Request = " + request.toString()
+                //)
             }
         }
 
@@ -62,4 +95,24 @@ class KotlinActivity : Activity() {
 
     }
 
+    fun action(led: String, act: String) {
+
+        Fuel.get("http://10.0.1.1/" + led + act).response { request, response, result ->
+            println(request)
+            println(response)
+            println(result)
+            val (bytes, error) = result
+            if (bytes != null) {
+                println(bytes)
+            }
+
+            //text.setText("Result = " + result.success
+            //+ "\n"
+            //+ "Response = " + response.httpResponseMessage.toString()
+            //+ "\n"
+            //+ "Request = " + request.toString()
+            //)
+        }
+
+    }
 }
