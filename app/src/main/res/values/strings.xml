@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">CarWifi</string>
+    <string name="title_activity_kotlin">KotlinActivity</string>
+    <string name="button">Botão</string>
+</resources>
