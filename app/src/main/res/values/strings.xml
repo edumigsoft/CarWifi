@@ -2,4 +2,9 @@
     <string name="app_name">CarWifi</string>
     <string name="title_activity_kotlin">KotlinActivity</string>
     <string name="button">Botão</string>
+    <string name="led01">Led- 01</string>
+    <string name="led02">Led - 02</string>
+    <string name="led03">Led - 03</string>
+    <string name="led04">Led - 04</string>
+    <string name="message">Message</string>
 </resources>
