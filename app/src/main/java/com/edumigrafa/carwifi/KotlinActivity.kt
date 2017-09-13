@@ -7,46 +7,58 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.view.KeyEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
+import android.widget.SeekBar
 import com.github.kittinunf.fuel.Fuel
 import kotlinx.android.synthetic.main.activity_kotlin.*
+import org.jetbrains.anko.toast
 
 class KotlinActivity() : Activity(), SensorEventListener {
 
-    var luz_giroflex: Boolean = false
+    var light_gyroflex: Boolean = false
+    var flashlight: Boolean = false
+    var stable: Boolean = true;
+    var message: String = ""
 
     val sensorManager: SensorManager by lazy {
         getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
-
     val http: String = "http://10.0.1.1/"
-    val limitNegative: Float = -0.9f
-    val limitPositive: Float = 0.9f
-    var lanterna: Boolean = false
-    val PIN_DIRECTION_LEFT: String = "pin_left"
-    val PIN_DIRECTION_RIGHT: String = "pin_right"
+    val limitNegative: Float = -1.5f
+    val limitPositive: Float = 1.5f
+    val PIN_DIRECTION_LEFT: String = "pin_left"             // 1
+    val PIN_DIRECTION_RIGHT: String = "pin_right"           // 2
+    val PIN_GYROFLEX: String = "pin_gyro"                   // 3
+    val PIN_BUZZER: String = "pin_buzzer"                   // 4
+    val PIN_DIRECTION_FRONT_1: String = "pin_front_1"       // 5
+    val PIN_DIRECTION_FRONT_2: String = "pin_front_2"       // 6
+    val PIN_DIRECTION_FRONT_3: String = "pin_front_3"       // 7
+    val PIN_DIRECTION_FRONT_4: String = "pin_front_4"       // 8
+    val PIN_DIRECTION_BACK_1: String = "pin_back_1"         // 9
+    val PIN_DIRECTION_BACK_2: String = "pin_back_2"         // 10
 
-    fun piscaGiroflex() {
+    fun flasherGyroflex() {
         var animationIDs = intArrayOf(R.anim.blink)//R.anim.fade_in, R.anim.fade_out, R.anim.zoom_in, R.anim.zoom_out, R.anim.blink, R.anim.rotate, R.anim.move, R.anim.slide_up, R.anim.slide_down, R.anim.bounce)
         val animation = AnimationUtils.loadAnimation(this, animationIDs[0])
 
-        if (!luz_giroflex) {
-            img_luz_giroflex.startAnimation(animation)
+        if (!light_gyroflex) {
+            img_light_gyroflex.startAnimation(animation)
+            execHttp(PIN_GYROFLEX + "1")
         } else {
-            img_luz_giroflex.clearAnimation()
+            img_light_gyroflex.clearAnimation()
+            execHttp(PIN_GYROFLEX + "0")
         }
 
-        luz_giroflex = luz_giroflex.not()
-
-        //@TODO Ajustar para receptor
+        light_gyroflex = light_gyroflex.not()
     }
 
+    //@TODO Implementar vibração
     // act = true >> liga || act = false >> desliga
-    fun piscaLanterna(img: ImageView, act: Boolean) {
-
-        if (lanterna == act && act) {return}
+    fun flasherFlashlight(img: ImageView, act: Boolean) {
+        if (flashlight == act && act) {return}
 
         var animationIDs = intArrayOf(R.anim.blink_2)
         val animation = AnimationUtils.loadAnimation(this, animationIDs[0])
@@ -57,7 +69,7 @@ class KotlinActivity() : Activity(), SensorEventListener {
             img.clearAnimation()
         }
 
-        lanterna = act
+        flashlight = act
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,20 +78,51 @@ class KotlinActivity() : Activity(), SensorEventListener {
 
         resetActionDirection()
 
-        btn_giroflex.setOnClickListener{
-            piscaGiroflex()
+        btn_gyroflex.setOnClickListener{
+            flasherGyroflex()
         }
 
-        switch_sirene.setOnClickListener{
-            if (switch_sirene.isChecked) {
+        switch_buzzer.setOnClickListener{
+            if (switch_buzzer.isChecked) {
 
             } else {
 
             }
 
             //@TODO Implementar no receptor
-            //execHttp(http + PIN + "0")
+            //execHttp(PIN + "0")
         }
+
+
+        //@TODO Quando tiver mais opções de velocidade, implementar como exclusivo
+        button_back_1.setOnTouchListener{ view, motionEvent ->
+            when (motionEvent.action) {
+                KeyEvent.ACTION_DOWN -> {
+                    execHttp(PIN_DIRECTION_BACK_1 + "1")
+                }
+                KeyEvent.ACTION_UP -> {
+                    execHttp(PIN_DIRECTION_BACK_1 + "0")
+                }
+            }
+
+            true
+        }
+
+        seekBar_accelerator.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
+            var seekBarProgress: Int = 0
+
+            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
+                seekBarProgress = progress
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                //
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                toast("Progress: " + seekBarProgress + " / " + seekBar.getMax())
+            }
+        })
     }
 
     //
@@ -87,7 +130,7 @@ class KotlinActivity() : Activity(), SensorEventListener {
     fun actionExtras(pin: String, act: Boolean) {
 
         //@TODO Implementar no receptor
-        //execHttp(http + PIN + "0")
+        //execHttp(PIN + "0")
     }
 
     //
@@ -95,34 +138,20 @@ class KotlinActivity() : Activity(), SensorEventListener {
 
 
         //@TODO Implementar no receptor
-        //execHttp(http + PIN + "0")
+        //execHttp(PIN + "0")
     }
 
     fun resetActionDirection() {
         imgLeft.visibility = View.INVISIBLE
         imgRight.visibility = View.INVISIBLE
 
-        piscaLanterna(img_lanterna_esquerda, false)
-        piscaLanterna(img_lanterna_direita, false)
-    }
-
-    //@TODO Implementar vibração
-    // dir = true >> esquerda || dir = false = false >> direita
-    // act = true >> ligar || act = false >> desligar
-    fun actionDirection(dir: Boolean, act: Boolean) {
-        var pin: String = ""
-
-        if (dir) {
-            pin = "pin_esq"
-        } else {
-            pin = "pin_dir"
-        }
-
-        execHttp(http + pin + act.toString())
+        flasherFlashlight(img_flashelight_left, false)
+        flasherFlashlight(img_flashlight_right, false)
     }
 
     fun execHttp(data: String) {
-        if (toggle_button_geral.isChecked) {
+        if (toggle_button_master_key.isChecked && !message.equals(data)) {
+            message = data
             Fuel.get(http + data).response { request, response, result ->
                 //println(request)
                 //println(response)
@@ -164,7 +193,6 @@ class KotlinActivity() : Activity(), SensorEventListener {
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
     }
 
-    var stable: Boolean = true;
     override fun onSensorChanged(event: SensorEvent?) {
         var float_ey: Float = event!!.values.get(1)
         //println(float_ey)
@@ -172,35 +200,24 @@ class KotlinActivity() : Activity(), SensorEventListener {
 
         if (float_ey > limitNegative && float_ey < limitPositive) {
             if (!stable) {
-                //actionDirection(true, false)
-                //actionDirection(false, false)
-
-                execHttp(http + PIN_DIRECTION_LEFT + "0")
-                //imgLeft.visibility = View.INVISIBLE
-                //piscaLanterna(img_lanterna_esquerda, false)
-
-                execHttp(http + PIN_DIRECTION_RIGHT + "0")
-                //imgRight.visibility = View.INVISIBLE
-                //piscaLanterna(img_lanterna_direita, false)
-
+                execHttp(PIN_DIRECTION_LEFT + "0")
+                execHttp(PIN_DIRECTION_RIGHT + "0")
                 resetActionDirection()
                 stable = true
             }
         }
 
         if (float_ey > limitPositive) {
-            //actionDirection(false, true)
-            execHttp(http + PIN_DIRECTION_RIGHT + "1")
+            execHttp(PIN_DIRECTION_RIGHT + "1")
             imgRight.visibility = View.VISIBLE
-            piscaLanterna(img_lanterna_direita, true)
+            flasherFlashlight(img_flashlight_right, true)
             stable = false
         }
 
         if (float_ey < limitNegative) {
-            //actionDirection(true, true)
-            execHttp(http + PIN_DIRECTION_LEFT + "1")
+            execHttp(PIN_DIRECTION_LEFT + "1")
             imgLeft.visibility = View.VISIBLE
-            piscaLanterna(img_lanterna_esquerda, true)
+            flasherFlashlight(img_flashelight_left, true)
             stable = false
         }
 
