@@ -16,12 +16,17 @@ import kotlinx.android.synthetic.main.activity_kotlin.*
 class KotlinActivity() : Activity(), SensorEventListener {
 
     var luz_giroflex: Boolean = false
-    var luz_pisca_esquerda: Boolean = false
-    var luz_pisca_direita: Boolean = false
 
     val sensorManager: SensorManager by lazy {
         getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
+
+    val http: String = "http://10.0.1.1/"
+    val limitNegative: Float = -0.9f
+    val limitPositive: Float = 0.9f
+    var lanterna: Boolean = false
+    val PIN_DIRECTION_LEFT: String = "pin_left"
+    val PIN_DIRECTION_RIGHT: String = "pin_right"
 
     fun piscaGiroflex() {
         var animationIDs = intArrayOf(R.anim.blink)//R.anim.fade_in, R.anim.fade_out, R.anim.zoom_in, R.anim.zoom_out, R.anim.blink, R.anim.rotate, R.anim.move, R.anim.slide_up, R.anim.slide_down, R.anim.bounce)
@@ -34,114 +39,91 @@ class KotlinActivity() : Activity(), SensorEventListener {
         }
 
         luz_giroflex = luz_giroflex.not()
+
+        //@TODO Ajustar para receptor
     }
 
-    // lado = true >> esquerda || lado = false >> direita
-    fun piscaLanterna(img: ImageView, lado: Boolean): Boolean {
+    // act = true >> liga || act = false >> desliga
+    fun piscaLanterna(img: ImageView, act: Boolean) {
+
+        if (lanterna == act && act) {return}
+
         var animationIDs = intArrayOf(R.anim.blink_2)
         val animation = AnimationUtils.loadAnimation(this, animationIDs[0])
-        var flag: Boolean = if (lado) { luz_pisca_esquerda } else { luz_pisca_direita }
 
-        if (!flag) {
+        if (act) {
             img.startAnimation(animation)
         } else {
             img.clearAnimation()
         }
 
-        //if(lado) {
-        //    luz_pisca_esquerda != luz_pisca_esquerda
-        //} else {
-        //    luz_pisca_direita != luz_pisca_direita
-        //}
-
-        return flag.not()
+        lanterna = act
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_kotlin)
 
+        resetActionDirection()
+
         btn_giroflex.setOnClickListener{
             piscaGiroflex()
         }
 
-        btn_farol_esquerdo.setOnClickListener{
-            //var animationIDs = intArrayOf(R.anim.blink)//R.anim.fade_in, R.anim.fade_out, R.anim.zoom_in, R.anim.zoom_out, R.anim.blink, R.anim.rotate, R.anim.move, R.anim.slide_up, R.anim.slide_down, R.anim.bounce)
-            //val animation = AnimationUtils.loadAnimation(this, animationIDs[0])
+        switch_sirene.setOnClickListener{
+            if (switch_sirene.isChecked) {
 
-            //if (!luz_farol) {
-            //    img_farol_esquerda_2.visibility = View.VISIBLE
-            //    img_farol_esquerda_2.startAnimation(animation)
-            //} else {
-            //    img_farol_esquerda_2.clearAnimation()
-            //    img_farol_esquerda_2.visibility = View.INVISIBLE
-            //}
+            } else {
 
-            //luz_farol = luz_farol.not()
-
-            luz_pisca_esquerda = piscaLanterna(img_lanterna_esquerda, true)
-        }
-
-        btn_farol_direito.setOnClickListener{
-            luz_pisca_direita = piscaLanterna(img_lanterna_direita, false)
-        }
-
-
-        /*
-        imgCar.setOnTouchListener{ view, motionEvent ->
-            when (motionEvent.action) {
-                KeyEvent.ACTION_DOWN -> {
-                    //action("L1", "1")
-                    var str = motionEvent.x.toString()
-                    str += motionEvent.y.toString()
-                    text2.setText(str)
-                }
-                KeyEvent.ACTION_UP -> {
-                    //action("L1", "0")
-                    text2.setText("")
-                }
             }
 
-            true
+            //@TODO Implementar no receptor
+            //execHttp(http + PIN + "0")
         }
+    }
+
+    //
+    // act = true >> ligar || act = false >> desligar
+    fun actionExtras(pin: String, act: Boolean) {
+
+        //@TODO Implementar no receptor
+        //execHttp(http + PIN + "0")
+    }
+
+    //
+    fun actionMove() {
 
 
+        //@TODO Implementar no receptor
+        //execHttp(http + PIN + "0")
+    }
+
+    fun resetActionDirection() {
         imgLeft.visibility = View.INVISIBLE
         imgRight.visibility = View.INVISIBLE
-        imgFront.visibility = View.INVISIBLE
-        imgBack.visibility = View.INVISIBLE
 
-        led1.setOnTouchListener{ view, motionEvent ->
-            when (motionEvent.action) {
-                KeyEvent.ACTION_DOWN -> {
-                    action("L1", "1")
-                }
-                KeyEvent.ACTION_UP -> {
-                    action("L1", "0")
-                }
-            }
+        piscaLanterna(img_lanterna_esquerda, false)
+        piscaLanterna(img_lanterna_direita, false)
+    }
 
-            true
+    //@TODO Implementar vibração
+    // dir = true >> esquerda || dir = false = false >> direita
+    // act = true >> ligar || act = false >> desligar
+    fun actionDirection(dir: Boolean, act: Boolean) {
+        var pin: String = ""
+
+        if (dir) {
+            pin = "pin_esq"
+        } else {
+            pin = "pin_dir"
         }
 
-        led2.setOnTouchListener{ view, motionEvent ->
-            when (motionEvent.action) {
-                KeyEvent.ACTION_DOWN -> {
-                    action("L2", "1")
-                }
-                KeyEvent.ACTION_UP -> {
-                    action("L2", "0")
-                }
-            }
+        execHttp(http + pin + act.toString())
+    }
 
-            true
-        }
-
-        switch1.setOnClickListener {
-
-            var led: String = if (switch1.isChecked) "1" else "0"
-
-            Fuel.get("http://10.0.1.1/L1" + led).response { request, response, result ->
+    fun execHttp(data: String) {
+        if (toggle_button_geral.isChecked) {
+            Fuel.get(http + data).response { request, response, result ->
                 //println(request)
                 //println(response)
                 //println(result)
@@ -151,67 +133,13 @@ class KotlinActivity() : Activity(), SensorEventListener {
                 //}
 
                 //text.text("Result = " + result.success
-                        //+ "\n"
-                        //+ "Response = " + response.httpResponseMessage.toString()
-                        //+ "\n"
-                        //+ "Request = " + request.toString()
+                //+ "\n"
+                //+ "Response = " + response.httpResponseMessage.toString()
+                //+ "\n"
+                //+ "Request = " + request.toString()
                 //)
             }
         }
-
-        switch2.setOnClickListener {
-
-            var led: String = if (switch2.isChecked) "1" else "0"
-
-            Fuel.get("http://10.0.1.1/L2" + led).response { request, response, result ->
-                //println(request)
-                //println(response)
-                //val (bytes, error) = result
-                //if (bytes != null) {
-                //    println(bytes)
-                //}
-
-                //text.text("Result = " + result.toString() + "\r" + "Response.Body = " + request.httpBody.toString())
-            }
-        }
-
-        switch3.setOnClickListener {
-
-            var led: String = if (switch3.isChecked) "1" else "0"
-
-            Fuel.get("http://10.0.1.1/L3" + led).response { request, response, result ->
-                //println(request)
-                //println(response)
-                //val (bytes, error) = result
-                //if (bytes != null) {
-                //    println(bytes)
-                //}
-
-                //text.text("Result = " + result.toString() + "\r" + "Response.Body = " + request.httpBody.toString())
-            }
-        }
-*/
-    }
-
-    fun action(led: String, act: String) {
-
-        Fuel.get("http://10.0.1.1/" + led + act).response { request, response, result ->
-            //println(request)
-            //println(response)
-            //println(result)
-            //val (bytes, error) = result
-            //if (bytes != null) {
-            //    println(bytes)
-            //}
-
-            //text.text("Result = " + result.success
-            //+ "\n"
-            //+ "Response = " + response.httpResponseMessage.toString()
-            //+ "\n"
-            //+ "Request = " + request.toString()
-            //)
-        }
-
     }
 
     override fun onResume() {
@@ -238,53 +166,44 @@ class KotlinActivity() : Activity(), SensorEventListener {
 
     var stable: Boolean = true;
     override fun onSensorChanged(event: SensorEvent?) {
-
-        //text.text = event!!.values.zip("XYZ".toList()).fold("") { acc, pair ->
-        //    "$acc${pair.second}: ${pair.first}\n"
-        //}
-
-        //text2.text = event!!.values.zip("Y".toList()).fold("Y") { acc, pair ->
-        //    "$acc${pair.second}: ${pair.first}\n"
-        //}
-
-        //text.text = event!!.values.zip("Y".toList()).fold("") { acc, pair ->
-        //    "$acc: ${pair.first}\n"
-        //}
-
-        //var str_ey: String = event!!.values.zip("X".toList()).fold("") { acc, pair ->
-        //    "$acc: ${pair.first}\n"
-        //}
-
-        //println(str_ey)
-
         var float_ey: Float = event!!.values.get(1)
         //println(float_ey)
-        //text2.text = float_ey.toString()
+        text2.text = float_ey.toString()
 
-
-        if (float_ey > -1.5 && float_ey < 1.5) {
+        if (float_ey > limitNegative && float_ey < limitPositive) {
             if (!stable) {
-                action("L1", "0")
-                action("L2", "0")
+                //actionDirection(true, false)
+                //actionDirection(false, false)
+
+                execHttp(http + PIN_DIRECTION_LEFT + "0")
+                //imgLeft.visibility = View.INVISIBLE
+                //piscaLanterna(img_lanterna_esquerda, false)
+
+                execHttp(http + PIN_DIRECTION_RIGHT + "0")
+                //imgRight.visibility = View.INVISIBLE
+                //piscaLanterna(img_lanterna_direita, false)
+
+                resetActionDirection()
                 stable = true
-                imgLeft.visibility = View.INVISIBLE
-                imgRight.visibility = View.INVISIBLE
-                imgFront.visibility = View.INVISIBLE
-                imgBack.visibility = View.INVISIBLE
             }
         }
 
-        if (float_ey > 1.5) {
-            action("L1", "1")
-            stable = false
+        if (float_ey > limitPositive) {
+            //actionDirection(false, true)
+            execHttp(http + PIN_DIRECTION_RIGHT + "1")
             imgRight.visibility = View.VISIBLE
+            piscaLanterna(img_lanterna_direita, true)
+            stable = false
         }
 
-        if (float_ey < -1.5) {
-            action("L2", "1")
-            stable = false
+        if (float_ey < limitNegative) {
+            //actionDirection(true, true)
+            execHttp(http + PIN_DIRECTION_LEFT + "1")
             imgLeft.visibility = View.VISIBLE
+            piscaLanterna(img_lanterna_esquerda, true)
+            stable = false
         }
+
 /*
 
         Float x = event.values[0];
