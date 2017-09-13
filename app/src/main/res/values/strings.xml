@@ -8,4 +8,6 @@
     <string name="led04">Led - 04</string>
     <string name="message">Message</string>
     <string name="img_desc">img_desc</string>
+    <string name="sirene">Sirene</string>
+    <string name="re">Ré</string>
 </resources>
