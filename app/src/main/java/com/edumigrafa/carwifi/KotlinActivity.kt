@@ -14,7 +14,6 @@ import android.widget.ImageView
 import android.widget.SeekBar
 import com.github.kittinunf.fuel.Fuel
 import kotlinx.android.synthetic.main.activity_kotlin.*
-import org.jetbrains.anko.toast
 
 class KotlinActivity() : Activity(), SensorEventListener {
 
@@ -120,7 +119,24 @@ class KotlinActivity() : Activity(), SensorEventListener {
             }
 
             override fun onStopTrackingTouch(seekBar: SeekBar) {
-                toast("Progress: " + seekBarProgress + " / " + seekBar.getMax())
+                //toast("Progress: " + seekBarProgress + " / " + seekBar.getMax())
+
+                when (seekBarProgress) {
+                    0 -> {
+                        //
+                        execHttp(PIN_DIRECTION_FRONT_1 + "0")
+                    }
+                    1 -> {
+                        //
+                        execHttp(PIN_DIRECTION_FRONT_1 + "1")
+                    }
+                    2 -> {
+                        //
+                    }
+                    3 -> {
+                        //
+                    }
+                }
             }
         })
     }
