@@ -36,6 +36,14 @@ class KotlinActivity() : Activity(), SensorEventListener {
             carWifi!!.onOffBuzzer()
         }
 
+        img_button_car_headlight_left.setOnClickListener{
+            carWifi!!.onOffCarHeadlight()
+        }
+
+        img_button_car_headlight_right.setOnClickListener{
+            carWifi!!.onOffCarHeadlight()
+        }
+
         //@TODO Quando tiver mais opções de velocidade, implementar como exclusivo ou seekBar
         button_back_1.setOnTouchListener{ view, motionEvent ->
             when (motionEvent.action) {

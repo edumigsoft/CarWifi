@@ -24,7 +24,7 @@ class CarWiFi {
     fun execHttp(data: String) {
         if (activity!!.toggle_button_master_key.isChecked && !message.equals(data)) {
             message = data
-            Fuel.get(ADRESS_HTTP + data).response { request, response, result ->
+            Fuel.get(ADRESS_HTTP + data + "/").response { request, response, result ->
                 //println(request)
                 //println(response)
                 //println(result)
@@ -83,12 +83,21 @@ class CarWiFi {
         }
     }
 
+    var car_headlight: Boolean = false
     fun onOffCarHeadlight() {
-        //if (activity!!.switch_buzzer.isChecked) {
-        //    execHttp(PIN_CAR_HEADLIGHT + "1")
-        //} else {
-        //    execHttp(PIN_CAR_HEADLIGHT + "0")
-        //}
+        val animation = AnimationUtils.loadAnimation(activity, R.anim.blink)
+
+        if (!car_headlight) {
+            activity!!.img_button_car_headlight_left.startAnimation(animation)
+            activity!!.img_button_car_headlight_right.startAnimation(animation)
+            execHttp(PIN_CAR_HEADLIGHT + "1")
+        } else {
+            activity!!.img_button_car_headlight_left.clearAnimation()
+            activity!!.img_button_car_headlight_right.clearAnimation()
+            execHttp(PIN_CAR_HEADLIGHT + "0")
+        }
+
+        car_headlight = car_headlight.not()
     }
 
     // act = true >> ligar || act = false >> desligar
@@ -98,54 +107,23 @@ class CarWiFi {
         //execHttp(PIN + "0")
     }
 
-    fun resetActionMove() {
-        //@TODO Resetar controle
-        execHttp(PIN_DIRECTION_BACK_1 + "0")
-        execHttp(PIN_DIRECTION_BACK_2 + "0")
-
-        //@TODO Resetar controle
-        execHttp(PIN_DIRECTION_FRONT_1 + "0")
-        execHttp(PIN_DIRECTION_FRONT_2 + "0")
-        execHttp(PIN_DIRECTION_FRONT_3 + "0")
-        execHttp(PIN_DIRECTION_FRONT_4 + "0")
-        activity!!.seekBar_accelerator.progress = 0
-        activity!!.seekBar_accelerator.isEnabled = false
-    }
-
     fun actionFront(front: Int) {
-        when (front) {
-            0 -> {
-                resetActionMove()
-            }
-            1 -> {
-                //
-                execHttp(PIN_DIRECTION_FRONT_1 + "1")
-            }
-            2 -> {
-                //
-            }
-            3 -> {
-                //
-            }
+        if (front == 0) {
+            execHttp(PIN_DIRECTION_FRONT + "0")
+
+            activity!!.seekBar_accelerator.progress = 0
+            activity!!.seekBar_accelerator.isEnabled = false
+        } else {
+            execHttp(PIN_DIRECTION_FRONT + front.toString())
         }
     }
 
     fun actionBack(back: Int) {
-        when (back) {
-            0 -> {
-                //
-                execHttp(PIN_DIRECTION_BACK_1 + "0")
-            }
-            1 -> {
-                //
-                execHttp(PIN_DIRECTION_BACK_1 + "1")
-            }
-            2 -> {
-                //
-            }
-            3 -> {
-                //
-            }
+        if (back == 0) {
+            execHttp(PIN_DIRECTION_BACK + "0")
+            //
+        } else {
+            execHttp(PIN_DIRECTION_BACK + back.toString())
         }
     }
 
@@ -190,7 +168,6 @@ class CarWiFi {
         activity!!.text2.text = float_ey.toString()
 
         if (float_ex < LIMIT_X_1 || float_ex > LIMIT_X_2) {
-            resetActionMove()
             resetActionDirection()
             return
         }
