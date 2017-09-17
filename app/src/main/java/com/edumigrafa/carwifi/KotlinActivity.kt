@@ -7,8 +7,6 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.view.KeyEvent
-import android.widget.SeekBar
 import com.edumigrafa.carwifi.logic.CarWiFi
 import kotlinx.android.synthetic.main.activity_kotlin.*
 
@@ -44,6 +42,19 @@ class KotlinActivity() : Activity(), SensorEventListener {
             carWifi!!.onOffCarHeadlight()
         }
 
+        image_button_accelerator.setOnClickListener{
+            when (radio_group_car_gear.checkedRadioButtonId) {
+                //toggle_button_gear_1 -> {
+
+                //}
+            }
+
+        }
+
+        image_button_break.setOnClickListener{
+        }
+
+/*
         //@TODO Quando tiver mais opções de velocidade, implementar como exclusivo ou seekBar
         button_back_1.setOnTouchListener{ view, motionEvent ->
             when (motionEvent.action) {
@@ -78,7 +89,7 @@ class KotlinActivity() : Activity(), SensorEventListener {
                 seekBarProgress = 0
                 carWifi!!.actionFront(seekBarProgress)
             }
-        })
+        })*/
     }
 
     override fun onResume() {

@@ -10,4 +10,12 @@
     <string name="img_desc">img_desc</string>
     <string name="sirene">Sirene</string>
     <string name="re">Ré</string>
+    <string name="nr_1">1</string>
+    <string name="nr_2">2</string>
+    <string name="letter_r">R</string>
+    <string name="letter_p">P</string>
+    <string name="letter_3">3</string>
+    <string name="letter_4">4</string>
+    <string name="nr_3">3</string>
+    <string name="nr_4">4</string>
 </resources>
