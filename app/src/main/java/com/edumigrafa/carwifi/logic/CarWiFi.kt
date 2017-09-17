@@ -6,6 +6,7 @@ import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import com.edumigrafa.carwifi.KotlinActivity
 import com.edumigrafa.carwifi.R
+import com.github.kittinunf.fuel.Fuel
 import kotlinx.android.synthetic.main.activity_kotlin.*
 
 /**
@@ -21,7 +22,7 @@ class CarWiFi {
 
     var message: String = ""
     fun execHttp(data: String) {
-/*        if (activity!!.toggle_button_master_key.isChecked && !message.equals(data)) {
+        if (!activity!!.radio_button_gear_P.isChecked && !message.equals(data)) {
             message = data
             Fuel.get(ADRESS_HTTP + data + "/").response { request, response, result ->
                 //println(request)
@@ -39,7 +40,7 @@ class CarWiFi {
                 //+ "Request = " + request.toString()
                 //)
             }
-        }*/
+        }
     }
 
     //@TODO Implementar vibração
@@ -107,14 +108,14 @@ class CarWiFi {
     }
 
     fun actionFront(front: Int) {
-        /*if (front == 0) {
+        if (front == 0) {
             execHttp(PIN_DIRECTION_FRONT + "0")
 
-            activity!!.seekBar_accelerator.progress = 0
-            activity!!.seekBar_accelerator.isEnabled = false
+            //activity!!.seekBar_accelerator.progress = 0
+            //activity!!.seekBar_accelerator.isEnabled = false
         } else {
             execHttp(PIN_DIRECTION_FRONT + front.toString())
-        }*/
+        }
     }
 
     fun actionBack(back: Int) {
@@ -138,7 +139,7 @@ class CarWiFi {
     }
 
     var stable: Boolean = true;
-    fun actionDirection(event: SensorEvent?) {/*
+    fun actionDirection(event: SensorEvent?) {
         var float_ex: Float = event!!.values.get(0)
         var float_ey: Float = event!!.values.get(1)
         //println(float_ey)
@@ -171,7 +172,7 @@ class CarWiFi {
             return
         }
 
-        activity!!.seekBar_accelerator.isEnabled = true
+        //activity!!.seekBar_accelerator.isEnabled = true
 
         if (float_ey > LIMITNEGATIVE_Y && float_ey < LIMITPOSITIVE_Y) {
             if (!stable) {
@@ -192,7 +193,7 @@ class CarWiFi {
             activity!!.imgLeft.visibility = View.VISIBLE
             flasherFlashlight(activity!!.img_flashelight_left, true)
             stable = false
-        }*/
+        }
     }
 
 /*

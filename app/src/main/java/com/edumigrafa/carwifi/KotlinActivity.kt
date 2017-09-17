@@ -1,20 +1,23 @@
 package com.edumigrafa.carwifi
 
 import android.app.Activity
+import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.widget.RadioButton
+import com.edumigrafa.carwifi.logic.CarWiFi
 import kotlinx.android.synthetic.main.activity_kotlin.*
 
 class KotlinActivity() : Activity(), SensorEventListener {
 
-    //var carWifi: CarWiFi? = null
+    var carWifi: CarWiFi? = null
 
-    //val sensorManager: SensorManager by lazy {
-    //    getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    //}
+    val sensorManager: SensorManager by lazy {
+        getSystemService(Context.SENSOR_SERVICE) as SensorManager
+    }
 
 
     //Move to front or back
@@ -91,18 +94,16 @@ class KotlinActivity() : Activity(), SensorEventListener {
         setContentView(R.layout.activity_kotlin)
         //setContentView(R.layout.fragment_blank)
 
+        carWifi = CarWiFi(this)
+
+        carWifi!!.resetActionDirection()
+
         radio_button_gear_1.setOnClickListener({ view -> onClickRB(radio_button_gear_1) })
         radio_button_gear_2.setOnClickListener({ view -> onClickRB(radio_button_gear_2) })
         radio_button_gear_3.setOnClickListener({ view -> onClickRB(radio_button_gear_3) })
         radio_button_gear_4.setOnClickListener({ view -> onClickRB(radio_button_gear_4) })
         radio_button_gear_R.setOnClickListener({ view -> onClickRB(radio_button_gear_R) })
         radio_button_gear_P.setOnClickListener({ view -> onClickRB(radio_button_gear_P) })
-
-
-/*
-        carWifi = CarWiFi(this)
-
-        carWifi!!.resetActionDirection()
 
         btn_gyroflex.setOnClickListener{
             carWifi!!.flasherGyroflex()
@@ -121,15 +122,17 @@ class KotlinActivity() : Activity(), SensorEventListener {
         }
 
         image_button_accelerator.setOnClickListener{
-            when (radio_group_car_gear.checkedRadioButtonId) {
+            //when (radio_group_car_gear.checkedRadioButtonId) {
                 //toggle_button_gear_1 -> {
 
                 //}
-            }
+            //}
 
         }
 
         image_button_break.setOnClickListener{
+            radio_button_gear_P.isChecked = true
+            radio_button_gear_P.callOnClick()
         }
 
 /*
@@ -167,12 +170,12 @@ class KotlinActivity() : Activity(), SensorEventListener {
                 seekBarProgress = 0
                 carWifi!!.actionFront(seekBarProgress)
             }
-        })*/*/
+        })*/
     }
 
     override fun onResume() {
         super.onResume()
-        /*sensorManager.registerListener(
+        sensorManager.registerListener(
                 this,
                 sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
                 SensorManager.SENSOR_DELAY_NORMAL
@@ -181,18 +184,18 @@ class KotlinActivity() : Activity(), SensorEventListener {
                 //SENSOR_DELAY_GAME: utiliza uma taxa adequada para jogos;
                 //SENSOR_DELAY_NORMAL: taxa adequada para mudanças na orientação da tela;
                 //SENSOR_DELAY_UI: taxa adequada para a interface de usuário.
-        )*/
+        )
     }
 
     override fun onPause() {
         super.onPause()
-        //sensorManager.unregisterListener(this)
+        sensorManager.unregisterListener(this)
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        //carWifi!!.actionDirection(event)
+        carWifi!!.actionDirection(event)
     }
 }
