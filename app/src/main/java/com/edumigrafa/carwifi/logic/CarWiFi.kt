@@ -22,9 +22,12 @@ class CarWiFi {
 
     var message: String = ""
     fun execHttp(data: String) {
-        if (!activity!!.radio_button_gear_P.isChecked && !message.equals(data)) {
+        if (/*!activity!!.radio_button_gear_P.isChecked && */!message.equals(data)) {
             message = data
-            Fuel.get(ADRESS_HTTP + data + "/").response { request, response, result ->
+            var http: String = ADRESS_HTTP + data + "/"
+            println(http)
+            //activity!!.toast(http)
+            Fuel.get(http).response { request, response, result ->
                 //println(request)
                 //println(response)
                 //println(result)
@@ -167,8 +170,9 @@ class CarWiFi {
         */
         activity!!.text2.text = float_ey.toString()
 
-        if (float_ex < LIMIT_X_1 || float_ex > LIMIT_X_2) {
+        if (float_ex < LIMIT_X_1 || float_ex > LIMIT_X_2 && !stable) {
             resetActionDirection()
+            stable = true
             return
         }
 
