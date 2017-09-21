@@ -7,10 +7,10 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.view.KeyEvent
 import android.widget.RadioButton
 import com.edumigrafa.carwifi.logic.CarWiFi
 import kotlinx.android.synthetic.main.activity_kotlin.*
+import kotlinx.android.synthetic.main.fragment_blank.*
 
 class KotlinActivity() : Activity(), SensorEventListener {
 
@@ -35,17 +35,19 @@ class KotlinActivity() : Activity(), SensorEventListener {
 
         when(rb) {
             radio_button_gear_1 -> {
-                radio_button_gear_2.isChecked = false
-                radio_button_gear_3.isChecked = false
-                radio_button_gear_4.isChecked = false
-                radio_button_gear_R.isChecked = false
-                radio_button_gear_P.isChecked = false
+                //if (radio_button_gear_P.isChecked || radio_button_gear_2.isChecked) {
+                    radio_button_gear_2.isChecked = false
+                    radio_button_gear_3.isChecked = false
+                    radio_button_gear_4.isChecked = false
+                    radio_button_gear_R.isChecked = false
+                    radio_button_gear_P.isChecked = false
 
-                frontBack = true
-                pwmSpeed = 1
+                    frontBack = true
+                    pwmSpeed = 1
+                //}
             }
             radio_button_gear_2 -> {
-                //if (radio_button_gear_1.isChecked) {
+                if (radio_button_gear_1.isChecked || radio_button_gear_3.isChecked) {
                     radio_button_gear_1.isChecked = false
                     radio_button_gear_3.isChecked = false
                     radio_button_gear_4.isChecked = false
@@ -54,13 +56,14 @@ class KotlinActivity() : Activity(), SensorEventListener {
 
                     frontBack = true
                     pwmSpeed = 2
+                }
                     //} else {
                     //    radio_button_gear_2.isChecked = false
                     //    radio_button_gear_2.callOnClick()
                     //}
             }
             radio_button_gear_3 -> {
-                //if (radio_button_gear_1.isChecked) {
+                //if (radio_button_gear_2.isChecked || radio_button_gear_4.isChecked) {
                     radio_button_gear_1.isChecked = false
                     radio_button_gear_2.isChecked = false
                     radio_button_gear_4.isChecked = false
@@ -69,13 +72,14 @@ class KotlinActivity() : Activity(), SensorEventListener {
 
                     frontBack = true
                     pwmSpeed = 3
+                //}
                     //} else {
                     //    radio_button_gear_3.isChecked = false
                     //    radio_button_gear_3.callOnClick()
                     //}
             }
             radio_button_gear_4 -> {
-                //if (radio_button_gear_1.isChecked) {
+                //if (radio_button_gear_3.isChecked) {
                     radio_button_gear_1.isChecked = false
                     radio_button_gear_2.isChecked = false
                     radio_button_gear_3.isChecked = false
@@ -84,13 +88,14 @@ class KotlinActivity() : Activity(), SensorEventListener {
 
                     frontBack = true
                     pwmSpeed = 4
+                //}
                     //} else {
                     //    radio_button_gear_4.isChecked = false
                     //    radio_button_gear_4.callOnClick()
                     //}
             }
             radio_button_gear_R -> {
-                //if (radio_button_gear_1.isChecked || radio_button_gear_P.isChecked) {
+                if (radio_button_gear_P.isChecked) {
                     radio_button_gear_1.isChecked = false
                     radio_button_gear_2.isChecked = false
                     radio_button_gear_3.isChecked = false
@@ -100,12 +105,10 @@ class KotlinActivity() : Activity(), SensorEventListener {
                     // Limit 2
                     frontBack = false
                     pwmSpeed = 1
-
-
-                //} else {
-                    //    radio_button_gear_R.isChecked = false
-                    //    radio_button_gear_R.callOnClick()
-                    //}
+                } else {
+                    radio_button_gear_P.isChecked = true
+                    radio_button_gear_P.callOnClick()
+                }
             }
             radio_button_gear_P -> {
                 radio_button_gear_1.isChecked = false
@@ -121,51 +124,62 @@ class KotlinActivity() : Activity(), SensorEventListener {
                 carWifi!!.actionBack(0)
                 // Or
                 //carWifi!!.actionFront(0)
-
-
             }
-            //
-            //
             //
         }
     }
 
+    var selected: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_kotlin)
-        //setContentView(R.layout.fragment_blank)
+        //setContentView(R.layout.activity_kotlin)
+        setContentView(R.layout.fragment_blank)
 
-        carWifi = CarWiFi(this)
 
-        carWifi!!.resetActionDirection()
 
-        //radio_button_gear_1.setOnClickListener({ view -> onClickRB(radio_button_gear_1) })
+        button.setOnClickListener {
+            button.isSelected = !selected
+            selected = !selected
+        }
+
+
+
+        rb2.setOnCheckedChangeListener { compoundButton, b ->
+            if (rb1.isChecked || rb3.isChecked) {
+                // OK
+            } else {
+                compoundButton.isChecked = false
+            }
+        }
+
+
+
+//        carWifi = CarWiFi(this)
+
+        carWifi?.resetActionDirection()
+/*
         radio_button_gear_1.setOnClickListener({ onClickRB(radio_button_gear_1) })
-        //radio_button_gear_2.setOnClickListener({ view -> onClickRB(radio_button_gear_2) })
         radio_button_gear_2.setOnClickListener({ onClickRB(radio_button_gear_2) })
-        //radio_button_gear_3.setOnClickListener({ view -> onClickRB(radio_button_gear_3) })
         radio_button_gear_3.setOnClickListener({ onClickRB(radio_button_gear_3) })
-        //radio_button_gear_4.setOnClickListener({ view -> onClickRB(radio_button_gear_4) })
         radio_button_gear_4.setOnClickListener({ onClickRB(radio_button_gear_4) })
-        //radio_button_gear_R.setOnClickListener({ view -> onClickRB(radio_button_gear_R) })
         radio_button_gear_R.setOnClickListener({ onClickRB(radio_button_gear_R) })
-        //radio_button_gear_P.setOnClickListener({ view -> onClickRB(radio_button_gear_P) })
         radio_button_gear_P.setOnClickListener({ onClickRB(radio_button_gear_P) })
 
         btn_gyroflex.setOnClickListener {
-            carWifi!!.flasherGyroflex()
+            carWifi?.flasherGyroflex()
         }
 
         switch_buzzer.setOnClickListener {
-            carWifi!!.onOffBuzzer()
+            carWifi?.onOffBuzzer()
         }
 
         img_button_car_headlight_left.setOnClickListener {
-            carWifi!!.onOffCarHeadlight()
+            carWifi?.onOffCarHeadlight()
         }
 
         img_button_car_headlight_right.setOnClickListener {
-            carWifi!!.onOffCarHeadlight()
+            carWifi?.onOffCarHeadlight()
         }
 
         image_button_break.setOnTouchListener { _, motionEvent ->
@@ -194,22 +208,22 @@ class KotlinActivity() : Activity(), SensorEventListener {
                 KeyEvent.ACTION_DOWN -> {
                     if (!radio_button_gear_P.isChecked) {
                         if (frontBack) {
-                            carWifi!!.actionFront(pwmSpeed)
+                            carWifi?.actionFront(pwmSpeed)
                         } else {
-                            carWifi!!.actionBack(pwmSpeed)
+                            carWifi?.actionBack(pwmSpeed)
                         }
                     }
                 }
                 KeyEvent.ACTION_UP -> {
                     pwmSpeed = 0
-                    carWifi!!.actionBack(0)
+                    carWifi?.actionBack(0)
                     // Or
-                    //carWifi!!.actionFront(0)
+                    //carWifi?.actionFront(0)
                 }
             }
 
             true
-        }
+        }*/
     }
 
     override fun onResume() {
@@ -235,6 +249,6 @@ class KotlinActivity() : Activity(), SensorEventListener {
     }
 
     override fun onSensorChanged(event: SensorEvent?) {
-        carWifi!!.actionDirection(event)
+        carWifi?.actionDirection(event)
     }
 }
