@@ -7,10 +7,10 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
-import android.widget.RadioButton
+import android.view.KeyEvent
+import android.widget.ImageButton
 import com.edumigrafa.carwifi.logic.CarWiFi
 import kotlinx.android.synthetic.main.activity_kotlin.*
-import kotlinx.android.synthetic.main.fragment_blank.*
 
 class KotlinActivity() : Activity(), SensorEventListener {
 
@@ -18,183 +18,187 @@ class KotlinActivity() : Activity(), SensorEventListener {
     var breakFlag: Boolean = true
     var frontBack: Boolean = true
     var pwmSpeed: Int = 0
+    var selectedCarGear: ImageButton? = null
 
     val sensorManager: SensorManager by lazy {
         getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
 
     //Move to front or back
-    fun onClickRB(rb: RadioButton) {
+    fun onClickIB(btn: ImageButton) {
 
         //Não aciona outra marcha se não tiver apertado o pedal de freio, exceto a marcha P
-        if (breakFlag && rb != radio_button_gear_P) {
-            radio_button_gear_P.isChecked = true
-            radio_button_gear_P.callOnClick()
+        if (breakFlag && !selectedCarGear?.equals(imgBtnGearP)!!) {
+            selectedCarGear = imgBtnGearP
+            imgBtnGearP.callOnClick()
             return
         }
 
-        when(rb) {
-            radio_button_gear_1 -> {
-                //if (radio_button_gear_P.isChecked || radio_button_gear_2.isChecked) {
-                    radio_button_gear_2.isChecked = false
-                    radio_button_gear_3.isChecked = false
-                    radio_button_gear_4.isChecked = false
-                    radio_button_gear_R.isChecked = false
-                    radio_button_gear_P.isChecked = false
+        selectedCarGear?.isSelected = false
+        when(btn) {
+            imgBtnGearP -> {
+                selectedCarGear = imgBtnGearP
+                selectedCarGear?.isSelected = true
+//                radio_button_gear_1.isChecked = false
+//                radio_button_gear_2.isChecked = false
+//                radio_button_gear_3.isChecked = false
+//                radio_button_gear_4.isChecked = false
+//                radio_button_gear_R.isChecked = false
 
-                    frontBack = true
-                    pwmSpeed = 1
+//                breakFlag = true
+//                frontBack = true
+//                pwmSpeed = 0
+
+//                carWifi!!.actionBack(0)
+        // Or
+        //carWifi!!.actionFront(0)
+            }
+            imgBtnGear1 -> {
+                selectedCarGear = imgBtnGear1
+                selectedCarGear?.isSelected = true
+                //if (radio_button_gear_P.isChecked || radio_button_gear_2.isChecked) {
+//                    radio_button_gear_2.isChecked = false
+//                    radio_button_gear_3.isChecked = false
+//                    radio_button_gear_4.isChecked = false
+//                    radio_button_gear_R.isChecked = false
+//                    radio_button_gear_P.isChecked = false
+
+//                    frontBack = true
+//                    pwmSpeed = 1
                 //}
             }
-            radio_button_gear_2 -> {
-                if (radio_button_gear_1.isChecked || radio_button_gear_3.isChecked) {
-                    radio_button_gear_1.isChecked = false
-                    radio_button_gear_3.isChecked = false
-                    radio_button_gear_4.isChecked = false
-                    radio_button_gear_R.isChecked = false
-                    radio_button_gear_P.isChecked = false
+//            radio_button_gear_2 -> {
+//                if (radio_button_gear_1.isChecked || radio_button_gear_3.isChecked) {
+//                    radio_button_gear_1.isChecked = false
+//                    radio_button_gear_3.isChecked = false
+//                    radio_button_gear_4.isChecked = false
+//                    radio_button_gear_R.isChecked = false
+//                    radio_button_gear_P.isChecked = false
 
-                    frontBack = true
-                    pwmSpeed = 2
-                }
+//                    frontBack = true
+//                    pwmSpeed = 2
+//                }
                     //} else {
                     //    radio_button_gear_2.isChecked = false
                     //    radio_button_gear_2.callOnClick()
                     //}
-            }
-            radio_button_gear_3 -> {
+//            }
+//            radio_button_gear_3 -> {
                 //if (radio_button_gear_2.isChecked || radio_button_gear_4.isChecked) {
-                    radio_button_gear_1.isChecked = false
-                    radio_button_gear_2.isChecked = false
-                    radio_button_gear_4.isChecked = false
-                    radio_button_gear_R.isChecked = false
-                    radio_button_gear_P.isChecked = false
+//                    radio_button_gear_1.isChecked = false
+//                    radio_button_gear_2.isChecked = false
+//                    radio_button_gear_4.isChecked = false
+//                    radio_button_gear_R.isChecked = false
+//                    radio_button_gear_P.isChecked = false
 
-                    frontBack = true
-                    pwmSpeed = 3
+//                    frontBack = true
+//                    pwmSpeed = 3
                 //}
                     //} else {
                     //    radio_button_gear_3.isChecked = false
                     //    radio_button_gear_3.callOnClick()
                     //}
-            }
-            radio_button_gear_4 -> {
+//            }
+//            radio_button_gear_4 -> {
                 //if (radio_button_gear_3.isChecked) {
-                    radio_button_gear_1.isChecked = false
-                    radio_button_gear_2.isChecked = false
-                    radio_button_gear_3.isChecked = false
-                    radio_button_gear_R.isChecked = false
-                    radio_button_gear_P.isChecked = false
+//                    radio_button_gear_1.isChecked = false
+//                    radio_button_gear_2.isChecked = false
+//                    radio_button_gear_3.isChecked = false
+//                    radio_button_gear_R.isChecked = false
+//                    radio_button_gear_P.isChecked = false
 
-                    frontBack = true
-                    pwmSpeed = 4
+//                    frontBack = true
+//                    pwmSpeed = 4
                 //}
                     //} else {
                     //    radio_button_gear_4.isChecked = false
                     //    radio_button_gear_4.callOnClick()
                     //}
-            }
-            radio_button_gear_R -> {
-                if (radio_button_gear_P.isChecked) {
-                    radio_button_gear_1.isChecked = false
-                    radio_button_gear_2.isChecked = false
-                    radio_button_gear_3.isChecked = false
-                    radio_button_gear_4.isChecked = false
-                    radio_button_gear_P.isChecked = false
+//            }
+//            radio_button_gear_R -> {
+//                if (radio_button_gear_P.isChecked) {
+//                    radio_button_gear_1.isChecked = false
+//                    radio_button_gear_2.isChecked = false
+//                    radio_button_gear_3.isChecked = false
+//                    radio_button_gear_4.isChecked = false
+//                    radio_button_gear_P.isChecked = false
 
                     // Limit 2
-                    frontBack = false
-                    pwmSpeed = 1
-                } else {
-                    radio_button_gear_P.isChecked = true
-                    radio_button_gear_P.callOnClick()
-                }
-            }
-            radio_button_gear_P -> {
-                radio_button_gear_1.isChecked = false
-                radio_button_gear_2.isChecked = false
-                radio_button_gear_3.isChecked = false
-                radio_button_gear_4.isChecked = false
-                radio_button_gear_R.isChecked = false
-
-                breakFlag = true
-                frontBack = true
-                pwmSpeed = 0
-
-                carWifi!!.actionBack(0)
-                // Or
-                //carWifi!!.actionFront(0)
-            }
+//                    frontBack = false
+//                    pwmSpeed = 1
+//                } else {
+//                    radio_button_gear_P.isChecked = true
+//                    radio_button_gear_P.callOnClick()
+//                }
+//            }
             //
         }
+
+        //selectedCarGear?.isSelected = true
     }
 
-    var selected: Boolean = false
+    //    var selected: Boolean = false
+//    var selected2: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        //setContentView(R.layout.activity_kotlin)
-        setContentView(R.layout.fragment_blank)
+        setContentView(R.layout.activity_kotlin)
+        //setContentView(R.layout.fragment_blank)
 
+//        imgBtnGearP.setOnClickListener {
+//            imgBtnGearP.isSelected = !selected
+//            selected = !selected
+//        }
 
+//        imgBtnGear1.setOnClickListener {
+//            imgBtnGear1.isSelected = !selected2
+//            selected2 = !selected2
+//        }
 
-        button.setOnClickListener {
-            button.isSelected = !selected
-            selected = !selected
-        }
-
-
-
-        rb2.setOnCheckedChangeListener { compoundButton, b ->
-            if (rb1.isChecked || rb3.isChecked) {
-                // OK
-            } else {
-                compoundButton.isChecked = false
-            }
-        }
-
-
-
-//        carWifi = CarWiFi(this)
+        carWifi = CarWiFi(this)
 
         carWifi?.resetActionDirection()
-/*
-        radio_button_gear_1.setOnClickListener({ onClickRB(radio_button_gear_1) })
-        radio_button_gear_2.setOnClickListener({ onClickRB(radio_button_gear_2) })
-        radio_button_gear_3.setOnClickListener({ onClickRB(radio_button_gear_3) })
-        radio_button_gear_4.setOnClickListener({ onClickRB(radio_button_gear_4) })
-        radio_button_gear_R.setOnClickListener({ onClickRB(radio_button_gear_R) })
-        radio_button_gear_P.setOnClickListener({ onClickRB(radio_button_gear_P) })
 
-        btn_gyroflex.setOnClickListener {
+        imgBtnGearP.setOnClickListener({ onClickIB(imgBtnGearP) })
+        imgBtnGear1.setOnClickListener({ onClickIB(imgBtnGear1) })
+        imgBtnGear2.setOnClickListener({ onClickIB(imgBtnGear2) })
+        imgBtnGear3.setOnClickListener({ onClickIB(imgBtnGear3) })
+        imgBtnGear4.setOnClickListener({ onClickIB(imgBtnGear4) })
+        imgBtnGearR.setOnClickListener({ onClickIB(imgBtnGearR) })
+
+        selectedCarGear = imgBtnGearP
+        imgBtnGearP.callOnClick()
+
+        btnGyroflex.setOnClickListener {
             carWifi?.flasherGyroflex()
         }
 
-        switch_buzzer.setOnClickListener {
+        shBuzzer.setOnClickListener {
             carWifi?.onOffBuzzer()
         }
 
-        img_button_car_headlight_left.setOnClickListener {
+        imgBtnCarHeadlightLeft.setOnClickListener {
             carWifi?.onOffCarHeadlight()
         }
 
-        img_button_car_headlight_right.setOnClickListener {
+        imgBtnCarHeadlightRight.setOnClickListener {
             carWifi?.onOffCarHeadlight()
         }
 
-        image_button_break.setOnTouchListener { _, motionEvent ->
+        imgBtnBreak.setOnTouchListener { _, motionEvent ->
             when (motionEvent.action) {
                 KeyEvent.ACTION_DOWN -> {
-                    if (!radio_button_gear_P.isChecked) {
-                        radio_button_gear_P.isChecked = true
-                        radio_button_gear_P.callOnClick()
+                    if (!selectedCarGear?.equals(imgBtnGearP)!!) {
+                        selectedCarGear?.isSelected = false
+                        selectedCarGear = imgBtnGearP
+                        imgBtnGearP.callOnClick()
+
                     } else {
                         breakFlag = false
                     }
                 }
                 KeyEvent.ACTION_UP -> {
-                    //
-                    if (radio_button_gear_P.isChecked) {
+                    if (selectedCarGear?.equals(imgBtnGearP)!!) {
                         breakFlag = true
                     }
                 }
@@ -203,10 +207,10 @@ class KotlinActivity() : Activity(), SensorEventListener {
             true
         }
 
-        image_button_accelerator.setOnTouchListener { _, motionEvent ->
+        imgBtnAccelerator.setOnTouchListener { _, motionEvent ->
             when (motionEvent.action) {
                 KeyEvent.ACTION_DOWN -> {
-                    if (!radio_button_gear_P.isChecked) {
+                    if (!selectedCarGear?.equals(imgBtnGearP)!!) {
                         if (frontBack) {
                             carWifi?.actionFront(pwmSpeed)
                         } else {
@@ -223,7 +227,7 @@ class KotlinActivity() : Activity(), SensorEventListener {
             }
 
             true
-        }*/
+        }
     }
 
     override fun onResume() {

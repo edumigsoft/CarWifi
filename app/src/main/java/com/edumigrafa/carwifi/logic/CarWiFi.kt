@@ -68,10 +68,10 @@ class CarWiFi {
         val animation = AnimationUtils.loadAnimation(activity, R.anim.blink)
 
         if (!light_gyroflex) {
-            activity!!.img_light_gyroflex.startAnimation(animation)
+            activity!!.imgLightGyroflex.startAnimation(animation)
             execHttp(PIN_GYROFLEX + "1")
         } else {
-            activity!!.img_light_gyroflex.clearAnimation()
+            activity!!.imgLightGyroflex.clearAnimation()
             execHttp(PIN_GYROFLEX + "0")
         }
 
@@ -79,7 +79,7 @@ class CarWiFi {
     }
 
     fun onOffBuzzer() {
-        if (activity!!.switch_buzzer.isChecked) {
+        if (activity!!.shBuzzer.isChecked) {
             execHttp(PIN_BUZZER + "1")
         } else {
             execHttp(PIN_BUZZER + "0")
@@ -91,12 +91,12 @@ class CarWiFi {
         val animation = AnimationUtils.loadAnimation(activity, R.anim.blink)
 
         if (!car_headlight) {
-            activity!!.img_button_car_headlight_left.startAnimation(animation)
-            activity!!.img_button_car_headlight_right.startAnimation(animation)
+            activity!!.imgBtnCarHeadlightLeft.startAnimation(animation)
+            activity!!.imgBtnCarHeadlightRight.startAnimation(animation)
             execHttp(PIN_CAR_HEADLIGHT + "1")
         } else {
-            activity!!.img_button_car_headlight_left.clearAnimation()
-            activity!!.img_button_car_headlight_right.clearAnimation()
+            activity!!.imgBtnCarHeadlightLeft.clearAnimation()
+            activity!!.imgBtnCarHeadlightRight.clearAnimation()
             execHttp(PIN_CAR_HEADLIGHT + "0")
         }
 
@@ -137,8 +137,8 @@ class CarWiFi {
         activity!!.imgLeft.visibility = View.INVISIBLE
         activity!!.imgRight.visibility = View.INVISIBLE
 
-        flasherFlashlight(activity!!.img_flashelight_left, false)
-        flasherFlashlight(activity!!.img_flashlight_right, false)
+        flasherFlashlight(activity!!.imgFlashelightLeft, false)
+        flasherFlashlight(activity!!.imgFlashlightRight, false)
     }
 
     var stable: Boolean = true;
@@ -188,14 +188,14 @@ class CarWiFi {
         if (float_ey > LIMITPOSITIVE_Y) {
             execHttp(PIN_DIRECTION_RIGHT + "1")
             activity!!.imgRight.visibility = View.VISIBLE
-            flasherFlashlight(activity!!.img_flashlight_right, true)
+            flasherFlashlight(activity!!.imgFlashlightRight, true)
             stable = false
         }
 
         if (float_ey < LIMITNEGATIVE_Y) {
             execHttp(PIN_DIRECTION_LEFT + "1")
             activity!!.imgLeft.visibility = View.VISIBLE
-            flasherFlashlight(activity!!.img_flashelight_left, true)
+            flasherFlashlight(activity!!.imgFlashelightLeft, true)
             stable = false
         }
     }

@@ -7,7 +7,7 @@
     tools:context="com.edumigrafa.carwifi.KotlinActivity">
 
     <ImageView
-        android:id="@+id/img_light_gyroflex"
+        android:id="@+id/imgLightGyroflex"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
@@ -25,7 +25,7 @@
         app:layout_constraintVertical_bias="0.01999998" />
 
     <ImageView
-        android:id="@+id/img_flashelight_left"
+        android:id="@+id/imgFlashelightLeft"
         android:layout_width="18dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
@@ -45,7 +45,7 @@
         tools:layout_editor_absoluteY="163dp" />
 
     <ImageView
-        android:id="@+id/img_flashlight_right"
+        android:id="@+id/imgFlashlightRight"
         android:layout_width="18dp"
         android:layout_height="40dp"
         android:layout_marginBottom="8dp"
@@ -64,25 +64,25 @@
         app:layout_constraintVertical_bias="0.64" />
 
     <Button
-        android:id="@+id/btn_gyroflex"
+        android:id="@+id/btnGyroflex"
         style="@android:style/Widget.Material.Button.Borderless"
         android:layout_width="161dp"
         android:layout_height="22dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
-        app:layout_constraintLeft_toLeftOf="@+id/imgCar"
         android:layout_marginRight="8dp"
-        app:layout_constraintRight_toRightOf="@+id/imgCar"
-        app:layout_constraintBottom_toBottomOf="@+id/imgCar"
-        app:layout_constraintTop_toTopOf="@+id/imgCar"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="0dp"
-        app:layout_constraintVertical_bias="0.0"
-        app:layout_constraintHorizontal_bias="0.5" />
+        app:layout_constraintBottom_toBottomOf="@+id/imgCar"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintLeft_toLeftOf="@+id/imgCar"
+        app:layout_constraintRight_toRightOf="@+id/imgCar"
+        app:layout_constraintTop_toTopOf="@+id/imgCar"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/img_button_car_headlight_left"
+        android:id="@+id/imgBtnCarHeadlightLeft"
         android:layout_width="57dp"
         android:layout_height="24dp"
         android:layout_marginBottom="8dp"
@@ -101,7 +101,7 @@
         tools:layout_editor_absoluteX="183dp" />
 
     <ImageButton
-        android:id="@+id/img_button_car_headlight_right"
+        android:id="@+id/imgBtnCarHeadlightRight"
         android:layout_width="57dp"
         android:layout_height="24dp"
         android:layout_marginBottom="8dp"
@@ -119,7 +119,7 @@
         tools:ignore="RtlHardcoded" />
 
     <Switch
-        android:id="@+id/switch_buzzer"
+        android:id="@+id/shBuzzer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/sirene"
@@ -187,8 +187,8 @@
         android:src="@drawable/icon_police_4"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toRightOf="@+id/image_view_gear"
-        app:layout_constraintRight_toLeftOf="@+id/image_button_break"
+        app:layout_constraintLeft_toRightOf="@+id/imgVGear"
+        app:layout_constraintRight_toLeftOf="@+id/imgBtnBreak"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="RtlHardcoded" />
 
@@ -231,7 +231,7 @@
         app:layout_constraintVertical_bias="1.0" />
 
     <ImageButton
-        android:id="@+id/image_button_accelerator"
+        android:id="@+id/imgBtnAccelerator"
         style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -243,14 +243,14 @@
         android:src="@drawable/car_accelator"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="@+id/image_view_gear"
+        app:layout_constraintLeft_toLeftOf="@+id/imgVGear"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.504"
         tools:ignore="RtlHardcoded" />
 
     <ImageButton
-        android:id="@+id/image_button_break"
+        android:id="@+id/imgBtnBreak"
         style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -259,7 +259,7 @@
         android:layout_marginRight="16dp"
         android:contentDescription="@string/img_desc"
         android:src="@drawable/car_break"
-        app:layout_constraintBottom_toBottomOf="@+id/image_button_accelerator"
+        app:layout_constraintBottom_toBottomOf="@+id/imgBtnAccelerator"
         app:layout_constraintHorizontal_bias="0.85"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -268,7 +268,7 @@
         tools:ignore="RtlHardcoded" />
 
     <ImageView
-        android:id="@+id/image_view_gear"
+        android:id="@+id/imgVGear"
         android:layout_width="150dp"
         android:layout_height="125dp"
         android:layout_marginBottom="8dp"
@@ -282,62 +282,83 @@
         app:layout_constraintVertical_bias="0.5"
         tools:ignore="RtlHardcoded" />
 
-    <RadioButton
-        android:id="@+id/radio_button_gear_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/car_gear_button_bg"
-        android:button="@drawable/car_gear_button_1_1"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view_gear"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/image_view_gear"
-        app:layout_constraintRight_toRightOf="@+id/image_view_gear"
-        app:layout_constraintTop_toTopOf="@+id/image_view_gear"
-        app:layout_constraintVertical_bias="0.029999971"
-        tools:ignore="RtlHardcoded" />
-
-    <RadioButton
-        android:id="@+id/radio_button_gear_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="0dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/car_gear_button_bg"
-        android:button="@drawable/car_gear_button_2_1"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view_gear"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="@+id/image_view_gear"
-        app:layout_constraintRight_toRightOf="@+id/image_view_gear"
-        app:layout_constraintTop_toTopOf="@+id/image_view_gear"
-        app:layout_constraintVertical_bias="0.986"
-        tools:ignore="RtlHardcoded" />
-
-    <RadioButton
-        android:id="@+id/radio_button_gear_3"
+    <ImageButton
+        android:id="@+id/imgBtnGearP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
+        android:layout_marginRight="0dp"
         android:layout_marginTop="0dp"
         android:background="@drawable/car_gear_button_bg"
-        android:button="@drawable/car_gear_button_3_1"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view_gear"
-        app:layout_constraintHorizontal_bias="0.505"
-        app:layout_constraintLeft_toLeftOf="@+id/image_view_gear"
-        app:layout_constraintRight_toRightOf="@+id/image_view_gear"
-        app:layout_constraintTop_toTopOf="@+id/image_view_gear"
+        android:contentDescription="@string/img_desc"
+        android:src="@drawable/car_gear_button_p_1"
+        app:layout_constraintBottom_toBottomOf="@+id/imgVGear"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintLeft_toLeftOf="@+id/imgVGear"
+        app:layout_constraintRight_toRightOf="@+id/imgVGear"
+        app:layout_constraintTop_toTopOf="@+id/imgVGear"
         app:layout_constraintVertical_bias="0.01999998"
         tools:ignore="RtlHardcoded" />
 
-    <RadioButton
-        android:id="@+id/radio_button_gear_4"
+    <ImageButton
+        android:id="@+id/imgBtnGear1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/car_gear_button_bg"
+        android:contentDescription="@string/img_desc"
+        android:src="@drawable/car_gear_button_1_1"
+        app:layout_constraintBottom_toBottomOf="@+id/imgVGear"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintLeft_toLeftOf="@+id/imgVGear"
+        app:layout_constraintRight_toRightOf="@+id/imgVGear"
+        app:layout_constraintTop_toTopOf="@+id/imgVGear"
+        app:layout_constraintVertical_bias="0.01999998"
+        tools:ignore="RtlHardcoded" />
+
+    <ImageButton
+        android:id="@+id/imgBtnGear2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginLeft="0dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/car_gear_button_bg"
+        android:contentDescription="@string/img_desc"
+        android:src="@drawable/car_gear_button_2_1"
+        app:layout_constraintBottom_toBottomOf="@+id/imgVGear"
+        app:layout_constraintHorizontal_bias="0.02"
+        app:layout_constraintLeft_toLeftOf="@+id/imgVGear"
+        app:layout_constraintRight_toRightOf="@+id/imgVGear"
+        app:layout_constraintTop_toTopOf="@+id/imgVGear"
+        app:layout_constraintVertical_bias="0.98"
+        tools:ignore="RtlHardcoded" />
+
+    <ImageButton
+        android:id="@+id/imgBtnGear3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="0dp"
+        android:background="@drawable/car_gear_button_bg"
+        android:contentDescription="@string/img_desc"
+        android:src="@drawable/car_gear_button_3_1"
+        app:layout_constraintBottom_toBottomOf="@+id/imgVGear"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintLeft_toLeftOf="@+id/imgVGear"
+        app:layout_constraintRight_toRightOf="@+id/imgVGear"
+        app:layout_constraintTop_toTopOf="@+id/imgVGear"
+        app:layout_constraintVertical_bias="0.01999998" />
+
+    <ImageButton
+        android:id="@+id/imgBtnGear4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
@@ -345,36 +366,17 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/car_gear_button_bg"
-        android:button="@drawable/car_gear_button_4_1"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view_gear"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintLeft_toLeftOf="@+id/image_view_gear"
-        app:layout_constraintRight_toRightOf="@+id/image_view_gear"
-        app:layout_constraintTop_toTopOf="@+id/image_view_gear"
-        app:layout_constraintVertical_bias="0.98"
-        tools:ignore="RtlHardcoded" />
+        android:contentDescription="@string/img_desc"
+        android:src="@drawable/car_gear_button_4_1"
+        app:layout_constraintBottom_toBottomOf="@+id/imgVGear"
+        app:layout_constraintHorizontal_bias="0.505"
+        app:layout_constraintLeft_toLeftOf="@+id/imgVGear"
+        app:layout_constraintRight_toRightOf="@+id/imgVGear"
+        app:layout_constraintTop_toTopOf="@+id/imgVGear"
+        app:layout_constraintVertical_bias="0.98" />
 
-    <RadioButton
-        android:id="@+id/radio_button_gear_P"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginTop="0dp"
-        android:background="@drawable/car_gear_button_bg"
-        android:button="@drawable/car_gear_button_p_1"
-        android:checked="true"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view_gear"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="@+id/image_view_gear"
-        app:layout_constraintRight_toRightOf="@+id/image_view_gear"
-        app:layout_constraintTop_toTopOf="@+id/image_view_gear"
-        app:layout_constraintVertical_bias="0.012"
-        tools:ignore="RtlHardcoded" />
-
-    <RadioButton
-        android:id="@+id/radio_button_gear_R"
+    <ImageButton
+        android:id="@+id/imgBtnGearR"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="0dp"
@@ -382,13 +384,14 @@
         android:layout_marginRight="0dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/car_gear_button_bg"
-        android:button="@drawable/car_gear_button_r_1"
-        app:layout_constraintBottom_toBottomOf="@+id/image_view_gear"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintLeft_toLeftOf="@+id/image_view_gear"
-        app:layout_constraintRight_toRightOf="@+id/image_view_gear"
-        app:layout_constraintTop_toTopOf="@+id/image_view_gear"
-        app:layout_constraintVertical_bias="0.986"
+        android:contentDescription="@string/img_desc"
+        android:src="@drawable/car_gear_button_r_1"
+        app:layout_constraintBottom_toBottomOf="@+id/imgVGear"
+        app:layout_constraintHorizontal_bias="0.98"
+        app:layout_constraintLeft_toLeftOf="@+id/imgVGear"
+        app:layout_constraintRight_toRightOf="@+id/imgVGear"
+        app:layout_constraintTop_toTopOf="@+id/imgVGear"
+        app:layout_constraintVertical_bias="0.98"
         tools:ignore="RtlHardcoded" />
 
 </android.support.constraint.ConstraintLayout>
