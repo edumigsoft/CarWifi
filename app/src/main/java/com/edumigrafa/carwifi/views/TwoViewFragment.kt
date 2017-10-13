@@ -24,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_view_two.*
 /**
  * Created by anderson on 12/10/17.
  */
-class TwoViewFragment() : Fragment(), SensorEventListener, View.OnClickListener {
+class TwoViewFragment : Fragment(), SensorEventListener, View.OnClickListener {
 
     val TAG = "Two View Fragment"
     val sensorManager: SensorManager by lazy {

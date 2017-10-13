@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_view_one.*
 /**
  * Created by anderson on 12/10/17.
  */
-class OneViewFragment() : Fragment(), OnTouchListener {
+class OneViewFragment : Fragment(), OnTouchListener {
 
     val TAG = "One View Fragment"
     var carWifi: CarWiFi? = null

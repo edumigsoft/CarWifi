@@ -7,4 +7,7 @@
     <item
         android:id="@+id/miTwoView"
         android:title="@string/view_two" />
+    <item
+        android:id="@+id/miAbout"
+        android:title="@string/about" />
 </menu>

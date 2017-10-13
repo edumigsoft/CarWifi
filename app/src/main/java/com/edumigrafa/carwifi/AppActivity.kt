@@ -1,24 +1,40 @@
 package com.edumigrafa.carwifi
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.edumigrafa.carwifi.logic.PREFS_FILENAME
+import com.edumigrafa.carwifi.logic.PREFS_VIEW
+import com.edumigrafa.carwifi.logic.PREFS_VIEW_ONE
+import com.edumigrafa.carwifi.logic.PREFS_VIEW_TWO
+import com.edumigrafa.carwifi.views.AboutFragment
 import com.edumigrafa.carwifi.views.OneViewFragment
 import com.edumigrafa.carwifi.views.TwoViewFragment
 
-class AppActivity() : AppCompatActivity() {
+class AppActivity: AppCompatActivity() {
 
     val manager = supportFragmentManager
+
+    var prefs: SharedPreferences? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
 
-        //Preference
+        prefs = this.getSharedPreferences(PREFS_FILENAME, Context.MODE_PRIVATE)
 
-        //ShowOneViewFragment()
-        ShowTwoViewFragment()
+        var view: String = prefs!!.getString(PREFS_VIEW, PREFS_VIEW_ONE)
+        when(view) {
+            PREFS_VIEW_ONE -> {
+                ShowOneViewFragment()
+            }
+            PREFS_VIEW_TWO -> {
+                ShowTwoViewFragment()
+            }
+        }
     }
 
     fun ShowOneViewFragment() {
@@ -37,6 +53,14 @@ class AppActivity() : AppCompatActivity() {
         transaction.commit()
     }
 
+    fun ShowAboutFragment() {
+        val transaction = manager.beginTransaction()
+        val fragment = AboutFragment()
+        transaction.replace(R.id.fragment_holder, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         getMenuInflater().inflate(R.menu.menu_app, menu);
         return true
@@ -45,11 +69,17 @@ class AppActivity() : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.getItemId()) {
             R.id.miOneView -> {
+                prefs!!.edit().putString(PREFS_VIEW, PREFS_VIEW_ONE).apply()
                 ShowOneViewFragment()
                 return true
             }
             R.id.miTwoView -> {
+                prefs!!.edit().putString(PREFS_VIEW, PREFS_VIEW_TWO).apply()
                 ShowTwoViewFragment()
+                return true
+            }
+            R.id.miAbout -> {
+                ShowAboutFragment()
                 return true
             }
             else -> {
@@ -65,4 +95,9 @@ class AppActivity() : AppCompatActivity() {
     //override fun onPause() {
     //    super.onPause()
     //}
+
+    override fun onDestroy() {
+        super.onDestroy()
+        prefs = null
+    }
 }

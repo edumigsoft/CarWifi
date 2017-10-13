@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">CarWifi</string>
-    <string name="title_activity_kotlin">KotlinActivity</string>
     <string name="button">Botão</string>
     <string name="led01">Led- 01</string>
     <string name="led02">Led - 02</string>
@@ -19,10 +18,14 @@
     <string name="nr_3">3</string>
     <string name="nr_4">4</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="gyroflex">Giroflex</string>
     <string name="headlight">Farol</string>
     <string name="view_one">Visão 1</string>
     <string name="view_two">Visão 2</string>
+    <string name="by_make">EduMigRafaSoft</string>
+    <string name="ssid">SSID</string>
+    <string name="password">Password</string>
+    <string name="ssid_value">CARWIFI</string>
+    <string name="password_value">car_Wifi</string>
+    <string name="about">Sobre</string>
 </resources>
