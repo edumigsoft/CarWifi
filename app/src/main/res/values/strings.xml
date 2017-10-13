@@ -23,4 +23,6 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="gyroflex">Giroflex</string>
     <string name="headlight">Farol</string>
+    <string name="view_one">Visão 1</string>
+    <string name="view_two">Visão 2</string>
 </resources>

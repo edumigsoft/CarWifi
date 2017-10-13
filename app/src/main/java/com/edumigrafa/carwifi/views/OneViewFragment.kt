@@ -53,6 +53,10 @@ class OneViewFragment() : Fragment(), OnTouchListener {
         ivFront.setOnTouchListener(this)
         ivBack.setOnTouchListener(this)
 
+        tgbBuzzer.isSelected = false
+        tgbGyroflex.isSelected = false
+        tgbHeadlight.isSelected = false
+
         tgbBuzzer.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
             carWifi!!.onOffBuzzer(b)
         })
