@@ -8,9 +8,13 @@ import android.hardware.SensorManager
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
-import android.view.*
+import android.view.KeyEvent
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.CompoundButton
+import android.widget.ImageButton
 import android.widget.ImageView
 import com.edumigrafa.carwifi.AppActivity
 import com.edumigrafa.carwifi.R
@@ -20,7 +24,7 @@ import kotlinx.android.synthetic.main.fragment_view_two.*
 /**
  * Created by anderson on 12/10/17.
  */
-class TwoViewFragment() : Fragment(), View.OnTouchListener, SensorEventListener {
+class TwoViewFragment() : Fragment(), SensorEventListener, View.OnClickListener {
 
     val TAG = "Two View Fragment"
     val sensorManager: SensorManager by lazy {
@@ -31,6 +35,11 @@ class TwoViewFragment() : Fragment(), View.OnTouchListener, SensorEventListener 
     var flashlight: Boolean = false
     var light_gyroflex: Boolean = false
     var car_headlight: Boolean = false
+    var selectedCarGear: ImageButton? = null
+    var breakFlag: Boolean = false
+    var direction_speed: String = DIRECTION
+    //var frontBack: Boolean = true
+    //var pwmSpeed: Int = 0
 
     //override fun onAttach(context: Context?) {
     //    Log.d(TAG, "onAttach")
@@ -58,10 +67,49 @@ class TwoViewFragment() : Fragment(), View.OnTouchListener, SensorEventListener 
         Log.d(TAG, "onStart")
         super.onStart()
 
-        //ivLeft.setOnTouchListener(this)
-        //ivRight.setOnTouchListener(this)
-        //ivFront.setOnTouchListener(this)
-        //ivBack.setOnTouchListener(this)
+        imgBtnGearP.setOnClickListener(this)
+        imgBtnGear1.setOnClickListener(this)
+        imgBtnGear2.setOnClickListener(this)
+        imgBtnGear3.setOnClickListener(this)
+        imgBtnGear4.setOnClickListener(this)
+        imgBtnGearR.setOnClickListener(this)
+
+        imgBtnGearP.callOnClick()
+
+        imgBtnBreak.setOnTouchListener { _, motionEvent ->
+            when (motionEvent.action) {
+                KeyEvent.ACTION_DOWN -> {
+                    if (!selectedCarGear?.equals(imgBtnGearP)!!) {
+                        imgBtnGearP.callOnClick()
+                    } else {
+                        breakFlag = true
+                    }
+                }
+                KeyEvent.ACTION_UP -> {
+                    breakFlag = false
+                }
+            }
+
+            true
+        }
+
+        imgBtnAccelerator.setOnTouchListener { _, motionEvent ->
+            when (motionEvent.action) {
+                KeyEvent.ACTION_DOWN -> {
+                    if (!selectedCarGear?.equals(imgBtnGearP)!!) {
+                        carWifi!!.directionFrontBack(direction_speed)
+                        text2.text = direction_speed
+                    }
+                }
+                KeyEvent.ACTION_UP -> {
+                    if (!selectedCarGear?.equals(imgBtnGearP)!!) {
+                        imgBtnGearP.callOnClick()
+                    }
+                }
+            }
+
+            true
+        }
 
         btnGyroflex.setOnClickListener {
             val animation = AnimationUtils.loadAnimation(activity, R.anim.blink)
@@ -125,61 +173,6 @@ class TwoViewFragment() : Fragment(), View.OnTouchListener, SensorEventListener 
     //    super.onDestroy()
     //}
 
-    override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
-            when (motionEvent!!.action) {
-                KeyEvent.ACTION_DOWN -> {
-                    when(view!!) {
-                        //ivLeft -> {
-                        //    if (!ivRight.isSelected) {
-                        //        carWifi!!.directionLeftRight(DIRECTION_LEFT)
-                        //    }
-                        //}
-                        //ivRight -> {
-                        //    if (!ivLeft.isSelected) {
-                        //        carWifi!!.directionLeftRight(DIRECTION_RIGHT)
-                        //    }
-                        //}
-                        //ivFront -> {
-                        //    if (!ivBack.isSelected) {
-                        //        carWifi!!.directionFrontBack("1")
-                        //    }
-                        //}
-                        //ivBack -> {
-                        //    if (!ivFront.isSelected) {
-                        //        carWifi!!.directionFrontBack("-1")
-                        //    }
-                        //}
-                    }
-                }
-                KeyEvent.ACTION_UP -> {
-                    when(view!!) {
-                        //ivLeft -> {
-                        //    if (!ivRight.isSelected) {
-                        //        carWifi!!.directionLeftRight(DIRECTION)
-                        //    }
-                        //}
-                        //ivRight -> {
-                        //    if (!ivLeft.isSelected) {
-                        //        carWifi!!.directionLeftRight(DIRECTION)
-                        //    }
-                        //}
-                        //ivFront -> {
-                        //    if (!ivBack.isSelected) {
-                        //        carWifi!!.directionFrontBack(DIRECTION)
-                        //    }
-                        //}
-                        //ivBack -> {
-                        //    if (!ivFront.isSelected) {
-                        //        carWifi!!.directionFrontBack(DIRECTION)
-                        //    }
-                        //}
-                    }
-                }
-            }
-
-        return true
-    }
-
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {
         //
     }
@@ -196,7 +189,7 @@ class TwoViewFragment() : Fragment(), View.OnTouchListener, SensorEventListener 
         str += "Posição Y: " + float_ey.toString()
         str += "\n"
         str += "Posição Z: " + float_ez.toString()
-        text.setText(str);
+        //text.setText(str);
         /*
         if(float_ey < 0) { // O dispositivo esta de cabeça pra baixo
             if(float_ex > 0)
@@ -210,7 +203,7 @@ class TwoViewFragment() : Fragment(), View.OnTouchListener, SensorEventListener 
                 activity!!.text2.setText("Virando para DIREITA ");
         }
         */
-        text2.text = float_ey.toString()
+        //text2.text = float_ey.toString()
 
         if (float_ex < LIMIT_X_1 || float_ex > LIMIT_X_2 && !stable) {
             resetActionDirection()
@@ -281,215 +274,93 @@ class TwoViewFragment() : Fragment(), View.OnTouchListener, SensorEventListener 
         car_headlight = car_headlight.not()
     }
 
-}
+    //Move to front or back
+    override fun onClick(view: View?) {
 
+        when(view) {
+            imgBtnGearP -> {
+                selectedCarGear?.isSelected = false
+                selectedCarGear = view as ImageButton?
+                selectedCarGear?.isSelected = true
 
-/*
-var carWifi: CarWiFi? = null
-var breakFlag: Boolean = true
-var frontBack: Boolean = true
-var pwmSpeed: Int = 0
-var selectedCarGear: ImageButton? = null
+                breakFlag = false
 
-val sensorManager: SensorManager by lazy {
-    getSystemService(Context.SENSOR_SERVICE) as SensorManager
-}
-
-//Move to front or back
-fun onClickIB(btn: ImageButton) {
-
-    //Não aciona outra marcha se não tiver apertado o pedal de freio, exceto a marcha P
-    if (breakFlag && !selectedCarGear?.equals(imgBtnGearP)!!) {
-        selectedCarGear = imgBtnGearP
-        imgBtnGearP.callOnClick()
-        return
-    }
-
-    selectedCarGear?.isSelected = false
-    when(btn) {
-        imgBtnGearP -> {
-            selectedCarGear = imgBtnGearP
-            selectedCarGear?.isSelected = true
-//                radio_button_gear_1.isChecked = false
-//                radio_button_gear_2.isChecked = false
-//                radio_button_gear_3.isChecked = false
-//                radio_button_gear_4.isChecked = false
-//                radio_button_gear_R.isChecked = false
-
-//                breakFlag = true
-//                frontBack = true
-//                pwmSpeed = 0
-
-//                carWifi!!.actionBack(0)
-    // Or
-    //carWifi!!.actionFront(0)
-        }
-        imgBtnGear1 -> {
-            selectedCarGear = imgBtnGear1
-            selectedCarGear?.isSelected = true
-            //if (radio_button_gear_P.isChecked || radio_button_gear_2.isChecked) {
-//                    radio_button_gear_2.isChecked = false
-//                    radio_button_gear_3.isChecked = false
-//                    radio_button_gear_4.isChecked = false
-//                    radio_button_gear_R.isChecked = false
-//                    radio_button_gear_P.isChecked = false
-
-//                    frontBack = true
-//                    pwmSpeed = 1
-            //}
-        }
-//            radio_button_gear_2 -> {
-//                if (radio_button_gear_1.isChecked || radio_button_gear_3.isChecked) {
-//                    radio_button_gear_1.isChecked = false
-//                    radio_button_gear_3.isChecked = false
-//                    radio_button_gear_4.isChecked = false
-//                    radio_button_gear_R.isChecked = false
-//                    radio_button_gear_P.isChecked = false
-
-//                    frontBack = true
-//                    pwmSpeed = 2
-//                }
-                //} else {
-                //    radio_button_gear_2.isChecked = false
-                //    radio_button_gear_2.callOnClick()
-                //}
-//            }
-//            radio_button_gear_3 -> {
-            //if (radio_button_gear_2.isChecked || radio_button_gear_4.isChecked) {
-//                    radio_button_gear_1.isChecked = false
-//                    radio_button_gear_2.isChecked = false
-//                    radio_button_gear_4.isChecked = false
-//                    radio_button_gear_R.isChecked = false
-//                    radio_button_gear_P.isChecked = false
-
-//                    frontBack = true
-//                    pwmSpeed = 3
-            //}
-                //} else {
-                //    radio_button_gear_3.isChecked = false
-                //    radio_button_gear_3.callOnClick()
-                //}
-//            }
-//            radio_button_gear_4 -> {
-            //if (radio_button_gear_3.isChecked) {
-//                    radio_button_gear_1.isChecked = false
-//                    radio_button_gear_2.isChecked = false
-//                    radio_button_gear_3.isChecked = false
-//                    radio_button_gear_R.isChecked = false
-//                    radio_button_gear_P.isChecked = false
-
-//                    frontBack = true
-//                    pwmSpeed = 4
-            //}
-                //} else {
-                //    radio_button_gear_4.isChecked = false
-                //    radio_button_gear_4.callOnClick()
-                //}
-//            }
-//            radio_button_gear_R -> {
-//                if (radio_button_gear_P.isChecked) {
-//                    radio_button_gear_1.isChecked = false
-//                    radio_button_gear_2.isChecked = false
-//                    radio_button_gear_3.isChecked = false
-//                    radio_button_gear_4.isChecked = false
-//                    radio_button_gear_P.isChecked = false
-
-                // Limit 2
-//                    frontBack = false
-//                    pwmSpeed = 1
-//                } else {
-//                    radio_button_gear_P.isChecked = true
-//                    radio_button_gear_P.callOnClick()
-//                }
-//            }
-        //
-    }
-
-    //selectedCarGear?.isSelected = true
-}
-
-//    var selected: Boolean = false
-//    var selected2: Boolean = false
-
-//override fun onCreate(savedInstanceState: Bundle?) {
-//    super.onCreate(savedInstanceState)
-//    setContentView(R.layout.activity_app_2)
-
-//    ShowOneViewFragment()
-
-
-    //setContentView(R.layout.fragment_blank)
-
-//        imgBtnGearP.setOnClickListener {
-//            imgBtnGearP.isSelected = !selected
-//            selected = !selected
-//        }
-
-//        imgBtnGear1.setOnClickListener {
-//            imgBtnGear1.isSelected = !selected2
-//            selected2 = !selected2
-//        }
-
-    carWifi = CarWiFi(this)
-
-    carWifi?.resetActionDirection()
-
-    imgBtnGearP.setOnClickListener({ onClickIB(imgBtnGearP) })
-    imgBtnGear1.setOnClickListener({ onClickIB(imgBtnGear1) })
-    imgBtnGear2.setOnClickListener({ onClickIB(imgBtnGear2) })
-    imgBtnGear3.setOnClickListener({ onClickIB(imgBtnGear3) })
-    imgBtnGear4.setOnClickListener({ onClickIB(imgBtnGear4) })
-    imgBtnGearR.setOnClickListener({ onClickIB(imgBtnGearR) })
-
-    selectedCarGear = imgBtnGearP
-    imgBtnGearP.callOnClick()
-
-
-
-    imgBtnBreak.setOnTouchListener { _, motionEvent ->
-        when (motionEvent.action) {
-            KeyEvent.ACTION_DOWN -> {
-                if (!selectedCarGear?.equals(imgBtnGearP)!!) {
+                direction_speed = "0"
+                carWifi!!.directionFrontBack(direction_speed)
+                text2.text = direction_speed
+            }
+            imgBtnGear1 -> {
+                if (breakFlag || selectedCarGear?.equals(imgBtnGear2)!!) {
                     selectedCarGear?.isSelected = false
-                    selectedCarGear = imgBtnGearP
-                    imgBtnGearP.callOnClick()
+                    selectedCarGear = view as ImageButton?
+                    selectedCarGear?.isSelected = true
 
-                } else {
-                    breakFlag = false
-                }
-            }
-            KeyEvent.ACTION_UP -> {
-                if (selectedCarGear?.equals(imgBtnGearP)!!) {
-                    breakFlag = true
-                }
-            }
-        }
-
-        true
-    }
-
-    imgBtnAccelerator.setOnTouchListener { _, motionEvent ->
-        when (motionEvent.action) {
-            KeyEvent.ACTION_DOWN -> {
-                if (!selectedCarGear?.equals(imgBtnGearP)!!) {
-                    if (frontBack) {
-                        carWifi?.actionFront(pwmSpeed)
+                    if (!direction_speed.equals("0") && !breakFlag) {
+                        direction_speed = "1"
+                        carWifi!!.directionFrontBack(direction_speed)
+                        text2.text = direction_speed
                     } else {
-                        carWifi?.actionBack(pwmSpeed)
+                        direction_speed = "1"
                     }
                 }
             }
-            KeyEvent.ACTION_UP -> {
-                pwmSpeed = 0
-                carWifi?.actionBack(0)
-                // Or
-                //carWifi?.actionFront(0)
+            imgBtnGear2 -> {
+                if ((selectedCarGear?.equals(imgBtnGear1)!! ||
+                        selectedCarGear?.equals(imgBtnGear3)!!) &&
+                            !direction_speed.equals("0") &&
+                                !breakFlag) {
+                    selectedCarGear?.isSelected = false
+                    selectedCarGear = view as ImageButton?
+                    selectedCarGear?.isSelected = true
+
+                    direction_speed = "2"
+                    carWifi!!.directionFrontBack(direction_speed)
+                    text2.text = direction_speed
+                }
+            }
+            imgBtnGear3 -> {
+                if ((selectedCarGear?.equals(imgBtnGear2)!! ||
+                        selectedCarGear?.equals(imgBtnGear4)!!) &&
+                            !direction_speed.equals("0") &&
+                                !breakFlag) {
+                    selectedCarGear?.isSelected = false
+                    selectedCarGear = view as ImageButton?
+                    selectedCarGear?.isSelected = true
+
+                    direction_speed = "3"
+                    carWifi!!.directionFrontBack(direction_speed)
+                    text2.text = direction_speed
+                }
+            }
+            imgBtnGear4 -> {
+                if (selectedCarGear?.equals(imgBtnGear3)!! &&
+                        !direction_speed.equals("0") &&
+                            !breakFlag) {
+                    selectedCarGear?.isSelected = false
+                    selectedCarGear = view as ImageButton?
+                    selectedCarGear?.isSelected = true
+
+                    direction_speed = "4"
+                    carWifi!!.directionFrontBack(direction_speed)
+                    text2.text = direction_speed
+                }
+            }
+            imgBtnGearR -> {
+                if (breakFlag) {
+                    selectedCarGear?.isSelected = false
+                    selectedCarGear = view as ImageButton?
+                    selectedCarGear?.isSelected = true
+
+                    if (!direction_speed.equals("0")) {
+                        direction_speed = "-1"
+                        carWifi!!.directionFrontBack(direction_speed)
+                        text2.text = direction_speed
+                    } else {
+                        direction_speed = "-1"
+                    }
+                }
             }
         }
-
-        true
     }
+
 }
-
-
-*/

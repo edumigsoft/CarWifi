@@ -112,7 +112,7 @@ class OneViewFragment() : Fragment(), OnTouchListener {
                         }
                         ivFront -> {
                             if (!ivBack.isSelected) {
-                                carWifi!!.directionFrontBack("1")
+                                carWifi!!.directionFrontBack("2")
                             }
                         }
                         ivBack -> {
