@@ -1,31 +1,30 @@
 <resources>
-    <string name="app_name">CarWifi</string>
-    <string name="button">Botão</string>
-    <string name="led01">Led- 01</string>
-    <string name="led02">Led - 02</string>
-    <string name="led03">Led - 03</string>
-    <string name="led04">Led - 04</string>
-    <string name="message">Message</string>
-    <string name="img_desc">img_desc</string>
-    <string name="sirene">Sirene</string>
-    <string name="re">Ré</string>
-    <string name="nr_1">1</string>
-    <string name="nr_2">2</string>
-    <string name="letter_r">R</string>
-    <string name="letter_p">P</string>
-    <string name="letter_3">3</string>
-    <string name="letter_4">4</string>
-    <string name="nr_3">3</string>
-    <string name="nr_4">4</string>
-
-    <string name="gyroflex">Giroflex</string>
-    <string name="headlight">Farol</string>
-    <string name="view_one">Visão 1</string>
-    <string name="view_two">Visão 2</string>
-    <string name="by_make">EduMigRafaSoft</string>
-    <string name="ssid">SSID</string>
+    <string name="app_name" translatable="false">CarWifi</string>
+    <string name="button">Button</string>
+    <string name="led01" translatable="false">Led - 01</string>
+    <string name="led02" translatable="false">Led - 02</string>
+    <string name="led03" translatable="false">Led - 03</string>
+    <string name="led04" translatable="false">Led - 04</string>
+    <string name="message">Mensagem</string>
+    <string name="img_desc" translatable="false">img_desc</string>
+    <string name="buzzer">Buzzer</string>
+    <string name="backward">Backward</string>
+    <string name="nr_1" translatable="false">1</string>
+    <string name="nr_2" translatable="false">2</string>
+    <string name="letter_r" translatable="false">R</string>
+    <string name="letter_p" translatable="false">P</string>
+    <string name="letter_3" translatable="false">3</string>
+    <string name="letter_4" translatable="false">4</string>
+    <string name="nr_3" translatable="false">3</string>
+    <string name="nr_4" translatable="false">4</string>
+    <string name="gyroflex">Gyroflex</string>
+    <string name="headlight">Headlight</string>
+    <string name="view_one">View 1</string>
+    <string name="view_two">View 2</string>
+    <string name="by_make" translatable="false">EduMigRafaSoft</string>
+    <string name="ssid" translatable="false">SSID</string>
     <string name="password">Password</string>
-    <string name="ssid_value">CARWIFI</string>
-    <string name="password_value">car_Wifi</string>
-    <string name="about">Sobre</string>
+    <string name="ssid_value" translatable="false">CARWIFI</string>
+    <string name="password_value" translatable="false">car_Wifi</string>
+    <string name="about">About</string>
 </resources>

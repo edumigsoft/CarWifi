@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="about">Sobre</string>
+    <string name="backward">Ré</string>
+    <string name="button">Botão</string>
+    <string name="buzzer">Sirene</string>
+    <string name="gyroflex">Giroflex</string>
+    <string name="headlight">Farol</string>
+    <string name="message">Message</string>
+    <string name="password">Senha</string>
+    <string name="view_one">Visão 1</string>
+    <string name="view_two">Visão 2</string>
+</resources>

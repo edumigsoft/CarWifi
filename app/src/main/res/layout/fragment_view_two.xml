@@ -122,7 +122,7 @@
         android:id="@+id/shBuzzer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/sirene"
+        android:text="@string/buzzer"
         tools:ignore="RtlHardcoded"
         android:layout_marginLeft="8dp"
         app:layout_constraintLeft_toLeftOf="@+id/imgCar"
