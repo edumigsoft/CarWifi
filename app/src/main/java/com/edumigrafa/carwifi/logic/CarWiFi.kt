@@ -54,6 +54,36 @@ class CarWiFi {
         execHttp(PIN_DIRECTION + direction)
     }
 
+    fun onOffBuzzer(onBuzzer: Boolean) {
+        if (onBuzzer) {
+            execHttp(PIN_BUZZER + "1")
+        } else {
+            execHttp(PIN_BUZZER + "0")
+        }
+    }
+
+    fun onOffGyroflex(onGyroflex: Boolean) {
+        if (onGyroflex) {
+            execHttp(PIN_GYROFLEX + "1")
+        } else {
+            execHttp(PIN_GYROFLEX + "0")
+        }
+    }
+
+    fun onOffHeadlight(onHeadlight: Boolean) {
+        if (onHeadlight) {
+            execHttp(PIN_HEADLIGHT + "1")
+        } else {
+            execHttp(PIN_HEADLIGHT + "0")
+        }
+    }
+
+
+
+
+
+
+
     //@TODO Implementar vibração
     // act = true >> liga || act = false >> desliga
     var flashlight: Boolean = false
@@ -101,11 +131,11 @@ class CarWiFi {
         if (!car_headlight) {
             activity!!.imgBtnCarHeadlightLeft.startAnimation(animation)
             activity!!.imgBtnCarHeadlightRight.startAnimation(animation)
-            execHttp(PIN_CAR_HEADLIGHT + "1")
+            execHttp(PIN_HEADLIGHT + "1")
         } else {
             activity!!.imgBtnCarHeadlightLeft.clearAnimation()
             activity!!.imgBtnCarHeadlightRight.clearAnimation()
-            execHttp(PIN_CAR_HEADLIGHT + "0")
+            execHttp(PIN_HEADLIGHT + "0")
         }
 
         car_headlight = car_headlight.not()

@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.*
 import android.view.View.OnTouchListener
+import android.widget.CompoundButton
 import com.edumigrafa.carwifi.AppActivity
 import com.edumigrafa.carwifi.R
 import com.edumigrafa.carwifi.logic.CarWiFi
@@ -52,6 +53,17 @@ class OneViewFragment() : Fragment(), OnTouchListener {
         ivFront.setOnTouchListener(this)
         ivBack.setOnTouchListener(this)
 
+        tgbBuzzer.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
+            carWifi!!.onOffBuzzer(b)
+        })
+
+        tgbGyroflex.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
+            carWifi!!.onOffGyroflex(b)
+        })
+
+        tgbHeadlight.setOnCheckedChangeListener(CompoundButton.OnCheckedChangeListener { compoundButton, b ->
+            carWifi!!.onOffHeadlight(b)
+        })
 
     }
 
