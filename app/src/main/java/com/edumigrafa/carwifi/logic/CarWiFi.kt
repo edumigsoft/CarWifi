@@ -22,7 +22,7 @@ class CarWiFi {
 
     var message: String = ""
     fun execHttp(data: String) {
-        if (/*!activity!!.radio_button_gear_P.isChecked && */!message.equals(data)) {
+        if (!message.equals(data)) {
             message = data
             var http: String = ADRESS_HTTP + data + "/"
             println(http)
@@ -45,6 +45,19 @@ class CarWiFi {
             }
         }
     }
+
+    fun directionLeftRight(left: Boolean, stop: Boolean = false) {
+        if (stop) {
+            execHttp(PIN_DIRECTION_LEFT_RIGHT + "0")
+        } else {
+            if (left) {
+                execHttp(PIN_DIRECTION_LEFT_RIGHT + "-1")
+            } else {
+                execHttp(PIN_DIRECTION_LEFT_RIGHT + "1")
+            }
+        }
+    }
+
 
     //@TODO Implementar vibração
     // act = true >> liga || act = false >> desliga

@@ -3,10 +3,8 @@ package com.edumigrafa.carwifi.views
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import android.widget.SeekBar
+import android.view.*
+import android.view.View.OnTouchListener
 import com.edumigrafa.carwifi.AppActivity
 import com.edumigrafa.carwifi.R
 import com.edumigrafa.carwifi.logic.CarWiFi
@@ -16,7 +14,7 @@ import kotlinx.android.synthetic.main.fragment_view_one.*
 /**
  * Created by anderson on 12/10/17.
  */
-class OneViewFragment : Fragment() {
+class OneViewFragment() : Fragment(), OnTouchListener {
 
     val TAG = "One View Fragment"
     var carWifi: CarWiFi? = null
@@ -47,33 +45,11 @@ class OneViewFragment : Fragment() {
         Log.d(TAG, "onStart")
         super.onStart()
 
-        seekBar.progress = 1
-        textView.text = "0"
+        ivLeft.setOnTouchListener(this)
+        ivRight.setOnTouchListener(this)
+        ivFront.setOnTouchListener(this)
+        ivBack.setOnTouchListener(this)
 
-        seekBar.setOnSeekBarChangeListener(object: SeekBar.OnSeekBarChangeListener {
-            var seekBarProgress: Int = 0
-
-            override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                seekBarProgress = progress - 1
-                textView.text = seekBarProgress.toString()
-                carWifi!!.execHttp(PIN_DIRECTION + seekBarProgress.toString())
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-                //
-            }
-
-            override fun onStopTrackingTouch(seekBar: SeekBar) {
-                //toast("Progress: " + seekBarProgress + " / " + seekBar.getMax())
-                //carWifi!!.actionFront(seekBarProgress)
-
-                //Quando solta o componente
-                //seekBar_accelerator.progress = 0
-                //seekBarProgress = 0
-                //carWifi!!.actionFront(seekBarProgress)
-
-            }
-        })
 
     }
 
@@ -102,8 +78,58 @@ class OneViewFragment : Fragment() {
     //    super.onDestroy()
     //}
 
-    //override fun onDetach() {
-    //    Log.d(TAG, "onDetach")
-    //    super.onDetach()
-    //}
+    override fun onTouch(view: View?, motionEvent: MotionEvent?): Boolean {
+            when (motionEvent!!.action) {
+                KeyEvent.ACTION_DOWN -> {
+                    when(view!!) {
+                        ivLeft -> {
+                            if (!ivRight.isSelected) {
+                                carWifi!!.directionLeftRight(true)
+                            }
+                        }
+                        ivRight -> {
+                            if (!ivLeft.isSelected) {
+                                carWifi!!.directionLeftRight(false)
+                            }
+                        }
+                        ivFront -> {
+                            if (!ivBack.isSelected) {
+                                carWifi!!.execHttp(PIN_DIRECTION + "1")
+                            }
+                        }
+                        ivBack -> {
+                            if (!ivFront.isSelected) {
+                                carWifi!!.execHttp(PIN_DIRECTION + "-1")
+                            }
+                        }
+                    }
+                }
+                KeyEvent.ACTION_UP -> {
+                    when(view!!) {
+                        ivLeft -> {
+                            if (!ivRight.isSelected) {
+                                carWifi!!.directionLeftRight(true, true)
+                            }
+                        }
+                        ivRight -> {
+                            if (!ivLeft.isSelected) {
+                                carWifi!!.directionLeftRight(false, true)
+                            }
+                        }
+                        ivFront -> {
+                            if (!ivBack.isSelected) {
+                                carWifi!!.execHttp(PIN_DIRECTION + "0")
+                            }
+                        }
+                        ivBack -> {
+                            if (!ivFront.isSelected) {
+                                carWifi!!.execHttp(PIN_DIRECTION + "0")
+                            }
+                        }
+                    }
+                }
+            }
+
+        return true
+    }
 }

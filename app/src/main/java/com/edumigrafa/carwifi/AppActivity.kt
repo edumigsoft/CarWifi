@@ -23,11 +23,11 @@ class AppActivity() : AppCompatActivity() {
         transaction.commit()
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
+    //override fun onResume() {
+    //    super.onResume()
+    //}
 
-    override fun onPause() {
-        super.onPause()
-    }
+    //override fun onPause() {
+    //    super.onPause()
+    //}
 }
