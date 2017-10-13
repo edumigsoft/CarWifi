@@ -8,7 +8,9 @@ import android.view.View.OnTouchListener
 import com.edumigrafa.carwifi.AppActivity
 import com.edumigrafa.carwifi.R
 import com.edumigrafa.carwifi.logic.CarWiFi
-import com.edumigrafa.carwifi.logic.PIN_DIRECTION
+import com.edumigrafa.carwifi.logic.DIRECTION
+import com.edumigrafa.carwifi.logic.DIRECTION_LEFT
+import com.edumigrafa.carwifi.logic.DIRECTION_RIGHT
 import kotlinx.android.synthetic.main.fragment_view_one.*
 
 /**
@@ -84,22 +86,22 @@ class OneViewFragment() : Fragment(), OnTouchListener {
                     when(view!!) {
                         ivLeft -> {
                             if (!ivRight.isSelected) {
-                                carWifi!!.directionLeftRight(true)
+                                carWifi!!.directionLeftRight(DIRECTION_LEFT)
                             }
                         }
                         ivRight -> {
                             if (!ivLeft.isSelected) {
-                                carWifi!!.directionLeftRight(false)
+                                carWifi!!.directionLeftRight(DIRECTION_RIGHT)
                             }
                         }
                         ivFront -> {
                             if (!ivBack.isSelected) {
-                                carWifi!!.execHttp(PIN_DIRECTION + "1")
+                                carWifi!!.directionFrontBack("1")
                             }
                         }
                         ivBack -> {
                             if (!ivFront.isSelected) {
-                                carWifi!!.execHttp(PIN_DIRECTION + "-1")
+                                carWifi!!.directionFrontBack("-1")
                             }
                         }
                     }
@@ -108,22 +110,22 @@ class OneViewFragment() : Fragment(), OnTouchListener {
                     when(view!!) {
                         ivLeft -> {
                             if (!ivRight.isSelected) {
-                                carWifi!!.directionLeftRight(true, true)
+                                carWifi!!.directionLeftRight(DIRECTION)
                             }
                         }
                         ivRight -> {
                             if (!ivLeft.isSelected) {
-                                carWifi!!.directionLeftRight(false, true)
+                                carWifi!!.directionLeftRight(DIRECTION)
                             }
                         }
                         ivFront -> {
                             if (!ivBack.isSelected) {
-                                carWifi!!.execHttp(PIN_DIRECTION + "0")
+                                carWifi!!.directionFrontBack(DIRECTION)
                             }
                         }
                         ivBack -> {
                             if (!ivFront.isSelected) {
-                                carWifi!!.execHttp(PIN_DIRECTION + "0")
+                                carWifi!!.directionFrontBack(DIRECTION)
                             }
                         }
                     }

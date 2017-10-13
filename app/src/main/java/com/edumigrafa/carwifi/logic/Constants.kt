@@ -18,3 +18,6 @@ val PIN_DIRECTION_FRONT: String = "pin_front"           // 4
 val PIN_GYROFLEX: String = "pin_gyro"                   // 5
 val PIN_BUZZER: String = "pin_buzzer"                   // 6
 val PIN_CAR_HEADLIGHT: String = "pin_car_headlight"     // 7
+val DIRECTION: String = "0"
+val DIRECTION_LEFT: String = "-1"
+val DIRECTION_RIGHT: String = "1"

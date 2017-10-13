@@ -46,18 +46,13 @@ class CarWiFi {
         }
     }
 
-    fun directionLeftRight(left: Boolean, stop: Boolean = false) {
-        if (stop) {
-            execHttp(PIN_DIRECTION_LEFT_RIGHT + "0")
-        } else {
-            if (left) {
-                execHttp(PIN_DIRECTION_LEFT_RIGHT + "-1")
-            } else {
-                execHttp(PIN_DIRECTION_LEFT_RIGHT + "1")
-            }
-        }
+    fun directionLeftRight(direction: String) {
+        execHttp(PIN_DIRECTION_LEFT_RIGHT + direction)
     }
 
+    fun directionFrontBack(direction: String) {
+        execHttp(PIN_DIRECTION + direction)
+    }
 
     //@TODO Implementar vibração
     // act = true >> liga || act = false >> desliga
