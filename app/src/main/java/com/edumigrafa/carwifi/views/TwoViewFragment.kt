@@ -38,8 +38,6 @@ class TwoViewFragment() : Fragment(), SensorEventListener, View.OnClickListener 
     var selectedCarGear: ImageButton? = null
     var breakFlag: Boolean = false
     var direction_speed: String = DIRECTION
-    //var frontBack: Boolean = true
-    //var pwmSpeed: Int = 0
 
     //override fun onAttach(context: Context?) {
     //    Log.d(TAG, "onAttach")
