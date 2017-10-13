@@ -9,6 +9,7 @@ val LIMITNEGATIVE_Y: Float = -1.2f
 val LIMITPOSITIVE_Y: Float = 1.2f
 val LIMIT_X_1: Float = 4.0f
 val LIMIT_X_2: Float = 8.0f
+val PIN_DIRECTION: String = "pin_direction"             //
 val PIN_DIRECTION_LEFT: String = "pin_left"             // 1
 val PIN_DIRECTION_RIGHT: String = "pin_right"           // 2
 val PIN_DIRECTION_BACK: String = "pin_back"             // 3

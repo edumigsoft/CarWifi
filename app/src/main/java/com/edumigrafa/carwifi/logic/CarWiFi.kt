@@ -4,19 +4,19 @@ import android.hardware.SensorEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.ImageView
-import com.edumigrafa.carwifi.KotlinActivity
+import com.edumigrafa.carwifi.AppActivity
 import com.edumigrafa.carwifi.R
 import com.github.kittinunf.fuel.Fuel
-import kotlinx.android.synthetic.main.activity_kotlin.*
+import kotlinx.android.synthetic.main.activity_app.*
 
 /**
  * Created by anderson on 13/09/17.
  */
 class CarWiFi {
 
-    var activity: KotlinActivity? = null
+    var activity: AppActivity? = null
 
-    constructor(activity: KotlinActivity) {
+    constructor(activity: AppActivity) {
         this.activity = activity
     }
 
