@@ -8,6 +8,12 @@
         android:id="@+id/miTwoView"
         android:title="@string/view_two" />
     <item
+        android:id="@+id/miTreeView"
+        android:title="@string/view_tree" />
+    <item
+        android:id="@+id/miFourView"
+        android:title="@string/view_four" />
+    <item
         android:id="@+id/miAbout"
         android:title="@string/about" />
 </menu>

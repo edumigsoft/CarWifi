@@ -18,7 +18,7 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import com.edumigrafa.carwifi.AppActivity
 import com.edumigrafa.carwifi.R
-import com.edumigrafa.carwifi.logic.*
+import com.edumigrafa.carwifi.carwifi.*
 import kotlinx.android.synthetic.main.fragment_view_two.*
 
 /**
@@ -209,22 +209,22 @@ class TwoViewFragment : Fragment(), SensorEventListener, View.OnClickListener {
             return
         }
 
-        if (float_ey > LIMITNEGATIVE_Y && float_ey < LIMITPOSITIVE_Y) {
+        if (float_ey > LIMIT_Y_1 && float_ey < LIMIT_Y_2) {
             if (!stable) {
                 resetActionDirection()
                 stable = true
             }
         }
 
-        if (float_ey > LIMITPOSITIVE_Y) {
-            carWifi!!.directionLeftRight("1")
+        if (float_ey > LIMIT_Y_2) {
+            carWifi!!.directionLeftRight(DIRECTION_RIGHT)
             imgRight.visibility = View.VISIBLE
             flasherFlashlight(imgFlashlightRight, true)
             stable = false
         }
 
-        if (float_ey < LIMITNEGATIVE_Y) {
-            carWifi!!.directionLeftRight("-1")
+        if (float_ey < LIMIT_Y_1) {
+            carWifi!!.directionLeftRight(DIRECTION_LEFT)
             imgLeft.visibility = View.VISIBLE
             flasherFlashlight(imgFlashelightLeft, true)
             stable = false
@@ -232,7 +232,7 @@ class TwoViewFragment : Fragment(), SensorEventListener, View.OnClickListener {
     }
 
     fun resetActionDirection() {
-        carWifi!!.directionLeftRight("0")
+        carWifi!!.directionLeftRight(DIRECTION)
 
         imgLeft.visibility = View.INVISIBLE
         imgRight.visibility = View.INVISIBLE
@@ -283,7 +283,7 @@ class TwoViewFragment : Fragment(), SensorEventListener, View.OnClickListener {
 
                 breakFlag = false
 
-                direction_speed = "0"
+                direction_speed = DIRECTION
                 carWifi!!.directionFrontBack(direction_speed)
                 text2.text = direction_speed
             }
@@ -293,25 +293,25 @@ class TwoViewFragment : Fragment(), SensorEventListener, View.OnClickListener {
                     selectedCarGear = view as ImageButton?
                     selectedCarGear?.isSelected = true
 
-                    if (!direction_speed.equals("0") && !breakFlag) {
-                        direction_speed = "1"
+                    if (!direction_speed.equals(DIRECTION) && !breakFlag) {
+                        direction_speed = DIRECTION_FRONT_1
                         carWifi!!.directionFrontBack(direction_speed)
                         text2.text = direction_speed
                     } else {
-                        direction_speed = "1"
+                        direction_speed = DIRECTION_FRONT_1
                     }
                 }
             }
             imgBtnGear2 -> {
                 if ((selectedCarGear?.equals(imgBtnGear1)!! ||
                         selectedCarGear?.equals(imgBtnGear3)!!) &&
-                            !direction_speed.equals("0") &&
+                            !direction_speed.equals(DIRECTION) &&
                                 !breakFlag) {
                     selectedCarGear?.isSelected = false
                     selectedCarGear = view as ImageButton?
                     selectedCarGear?.isSelected = true
 
-                    direction_speed = "2"
+                    direction_speed = DIRECTION_FRONT_2
                     carWifi!!.directionFrontBack(direction_speed)
                     text2.text = direction_speed
                 }
@@ -319,26 +319,26 @@ class TwoViewFragment : Fragment(), SensorEventListener, View.OnClickListener {
             imgBtnGear3 -> {
                 if ((selectedCarGear?.equals(imgBtnGear2)!! ||
                         selectedCarGear?.equals(imgBtnGear4)!!) &&
-                            !direction_speed.equals("0") &&
+                            !direction_speed.equals(DIRECTION) &&
                                 !breakFlag) {
                     selectedCarGear?.isSelected = false
                     selectedCarGear = view as ImageButton?
                     selectedCarGear?.isSelected = true
 
-                    direction_speed = "3"
+                    direction_speed = DIRECTION_FRONT_3
                     carWifi!!.directionFrontBack(direction_speed)
                     text2.text = direction_speed
                 }
             }
             imgBtnGear4 -> {
                 if (selectedCarGear?.equals(imgBtnGear3)!! &&
-                        !direction_speed.equals("0") &&
+                        !direction_speed.equals(DIRECTION) &&
                             !breakFlag) {
                     selectedCarGear?.isSelected = false
                     selectedCarGear = view as ImageButton?
                     selectedCarGear?.isSelected = true
 
-                    direction_speed = "4"
+                    direction_speed = DIRECTION_FRONT_4
                     carWifi!!.directionFrontBack(direction_speed)
                     text2.text = direction_speed
                 }
@@ -349,12 +349,12 @@ class TwoViewFragment : Fragment(), SensorEventListener, View.OnClickListener {
                     selectedCarGear = view as ImageButton?
                     selectedCarGear?.isSelected = true
 
-                    if (!direction_speed.equals("0")) {
-                        direction_speed = "-1"
+                    if (!direction_speed.equals(DIRECTION)) {
+                        direction_speed = DIRECTION_BACK
                         carWifi!!.directionFrontBack(direction_speed)
                         text2.text = direction_speed
                     } else {
-                        direction_speed = "-1"
+                        direction_speed = DIRECTION_BACK
                     }
                 }
             }

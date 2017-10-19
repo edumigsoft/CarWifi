@@ -10,4 +10,6 @@
     <string name="password">Senha</string>
     <string name="view_one">Visão 1</string>
     <string name="view_two">Visão 2</string>
+    <string name="view_tree">Visão 3</string>
+    <string name="view_four">Visão 4</string>
 </resources>

@@ -4,19 +4,18 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.*
-import android.view.View.OnTouchListener
 import android.widget.CompoundButton
 import com.edumigrafa.carwifi.AppActivity
 import com.edumigrafa.carwifi.R
 import com.edumigrafa.carwifi.carwifi.*
-import kotlinx.android.synthetic.main.fragment_view_one.*
+import kotlinx.android.synthetic.main.fragment_view_tree.*
 
 /**
  * Created by anderson on 12/10/17.
  */
-class OneViewFragment : Fragment(), OnTouchListener {
+class TreeViewFragment : Fragment(), View.OnTouchListener {
 
-    val TAG = "One View Fragment"
+    val TAG = "Tree View Fragment"
     var carWifi: CarWiFi? = null
 
     //override fun onAttach(context: Context?) {
@@ -33,7 +32,7 @@ class OneViewFragment : Fragment(), OnTouchListener {
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         Log.d(TAG, "onCreateView")
-        return inflater!!.inflate(R.layout.fragment_view_one, container, false)
+        return inflater!!.inflate(R.layout.fragment_view_tree, container, false)
     }
 
     //override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -48,6 +47,8 @@ class OneViewFragment : Fragment(), OnTouchListener {
         ivLeft.setOnTouchListener(this)
         ivRight.setOnTouchListener(this)
         ivFront.setOnTouchListener(this)
+        ivFront2.setOnTouchListener(this)
+        ivFront3.setOnTouchListener(this)
         ivBack.setOnTouchListener(this)
 
         tgbBuzzer.isSelected = false
@@ -109,7 +110,17 @@ class OneViewFragment : Fragment(), OnTouchListener {
                         }
                         ivFront -> {
                             if (!ivBack.isSelected) {
+                                carWifi!!.directionFrontBack(DIRECTION_FRONT_1)
+                            }
+                        }
+                        ivFront2 -> {
+                            if (!ivBack.isSelected) {
                                 carWifi!!.directionFrontBack(DIRECTION_FRONT_2)
+                            }
+                        }
+                        ivFront3 -> {
+                            if (!ivBack.isSelected) {
+                                carWifi!!.directionFrontBack(DIRECTION_FRONT_3)
                             }
                         }
                         ivBack -> {
@@ -132,6 +143,16 @@ class OneViewFragment : Fragment(), OnTouchListener {
                             }
                         }
                         ivFront -> {
+                            if (!ivBack.isSelected) {
+                                carWifi!!.directionFrontBack(DIRECTION)
+                            }
+                        }
+                        ivFront2 -> {
+                            if (!ivBack.isSelected) {
+                                carWifi!!.directionFrontBack(DIRECTION)
+                            }
+                        }
+                        ivFront3 -> {
                             if (!ivBack.isSelected) {
                                 carWifi!!.directionFrontBack(DIRECTION)
                             }

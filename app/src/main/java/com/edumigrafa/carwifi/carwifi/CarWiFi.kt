@@ -1,4 +1,4 @@
-package com.edumigrafa.carwifi.logic
+package com.edumigrafa.carwifi.carwifi
 
 import com.edumigrafa.carwifi.AppActivity
 import com.github.kittinunf.fuel.Fuel

@@ -27,4 +27,6 @@
     <string name="ssid_value" translatable="false">CARWIFI</string>
     <string name="password_value" translatable="false">car_Wifi</string>
     <string name="about">About</string>
+    <string name="view_tree">View 3</string>
+    <string name="view_four">View 4</string>
 </resources>

@@ -6,13 +6,8 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import com.edumigrafa.carwifi.logic.PREFS_FILENAME
-import com.edumigrafa.carwifi.logic.PREFS_VIEW
-import com.edumigrafa.carwifi.logic.PREFS_VIEW_ONE
-import com.edumigrafa.carwifi.logic.PREFS_VIEW_TWO
-import com.edumigrafa.carwifi.views.AboutFragment
-import com.edumigrafa.carwifi.views.OneViewFragment
-import com.edumigrafa.carwifi.views.TwoViewFragment
+import com.edumigrafa.carwifi.carwifi.*
+import com.edumigrafa.carwifi.views.*
 
 class AppActivity: AppCompatActivity() {
 
@@ -53,6 +48,22 @@ class AppActivity: AppCompatActivity() {
         transaction.commit()
     }
 
+    fun ShowTreeViewFragment() {
+        val transaction = manager.beginTransaction()
+        val fragment = TreeViewFragment()
+        transaction.replace(R.id.fragment_holder, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    fun ShowFourViewFragment() {
+        val transaction = manager.beginTransaction()
+        val fragment = FourViewFragment()
+        transaction.replace(R.id.fragment_holder, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
     fun ShowAboutFragment() {
         val transaction = manager.beginTransaction()
         val fragment = AboutFragment()
@@ -78,7 +89,16 @@ class AppActivity: AppCompatActivity() {
                 ShowTwoViewFragment()
                 return true
             }
-            R.id.miAbout -> {
+            R.id.miTreeView -> {
+                prefs!!.edit().putString(PREFS_VIEW, PREFS_VIEW_TREE).apply()
+                ShowTreeViewFragment()
+                return true
+            }
+            R.id.miFourView -> {
+                prefs!!.edit().putString(PREFS_VIEW, PREFS_VIEW_FOUR).apply()
+                ShowFourViewFragment()
+                return true
+            }R.id.miAbout -> {
                 ShowAboutFragment()
                 return true
             }
