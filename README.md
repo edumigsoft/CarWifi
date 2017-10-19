@@ -24,6 +24,12 @@ O smartphone se conecta diretamente a rede Wifi, criado pelo ESP8266, não neces
 
 # Screenshots
 
-![View About](app/src/main/assets/View_About.png "View About")
+![View About](app/src/main/assets/View_About.png =400x "View About")
 
-![View 1](app/src/main/assets/View_1.png "View 1")
+![View 1](app/src/main/assets/View_1.png =400x "View 1")
+
+![View 2](app/src/main/assets/View_2.png =200x "View 2")
+
+![View 3](app/src/main/assets/View_3.png =200x "View 3")
+
+![View 4](app/src/main/assets/View_4.png =200x "View 4")
