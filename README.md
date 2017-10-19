@@ -21,3 +21,9 @@ Foi utilizado como isolador do ESP8266 para as saídas, o 4n33, mas pode ser usa
 Para acionar o motores, utilizei o shield com o l298
 
 O smartphone se conecta diretamente a rede Wifi, criado pelo ESP8266, não necessitando de outra rede Wifi para a conecção
+
+# Screenshots
+
+![View About](app/src/main/assets/View_About.png "View About")
+
+![View 1](app/src/main/assets/View_1.png "View 1")
