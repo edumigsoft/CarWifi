@@ -34,16 +34,16 @@ O smartphone se conecta diretamente a rede Wifi, criado pelo ESP8266, não neces
 
 ![View 4](app/src/main/assets/View_4.png "View 4")
 
-![Car 1](app/src/main/assets/Car_1.png "Car 1")
+![Car 1](app/src/main/assets/Car_1.jpg "Car 1")
 
-![Car 2](app/src/main/assets/Car_2.png "Car 2")
+![Car 2](app/src/main/assets/Car_2.jpg "Car 2")
 
-![Car 3](app/src/main/assets/Car_3.png "Car 3")
+![Car 3](app/src/main/assets/Car_3.jpg "Car 3")
 
-![Car 4](app/src/main/assets/Car_4.png "Car 4")
+![Car 4](app/src/main/assets/Car_4.jpg "Car 4")
 
-![Car 5](app/src/main/assets/Car_5.png "Car 5")
+![Car 5](app/src/main/assets/Car_5.jpg "Car 5")
 
-![Car 6](app/src/main/assets/Car_6.png "Car 6")
+![Car 6](app/src/main/assets/Car_6.jpg "Car 6")
 
-![Car 7](app/src/main/assets/Car_7.png "Car 7")
+![Car 7](app/src/main/assets/Car_7.jpg "Car 7")
